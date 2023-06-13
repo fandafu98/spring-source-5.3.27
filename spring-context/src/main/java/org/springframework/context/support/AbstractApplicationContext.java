@@ -806,6 +806,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * 如果给定，则遵守显式顺序。
 	 * <p>必须在单例对象实例化之前调用，如果实例化之后修改beanDefinition就没有意义了
 	 * 多例对象在每次用的时候创建，所以不在这里进行修改
+	 *
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
