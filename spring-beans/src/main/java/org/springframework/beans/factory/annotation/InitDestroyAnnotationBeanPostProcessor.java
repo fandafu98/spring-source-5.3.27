@@ -100,9 +100,11 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 	protected transient Log logger = LogFactory.getLog(getClass());
 
+	// CommonAnnotationBeanPostProcessor在初始化时向里面放置了@PostConstruct注解
 	@Nullable
 	private Class<? extends Annotation> initAnnotationType;
 
+	// CommonAnnotationBeanPostProcessor在初始化时向里面放置了@PreDestory注解
 	@Nullable
 	private Class<? extends Annotation> destroyAnnotationType;
 
@@ -262,13 +264,17 @@ public class InitDestroyAnnotationBeanPostProcessor
 					}
 				}
 			});
-
+			// 将本次循环中获取到的对应方法集合保存到总集合中
 			initMethods.addAll(0, currInitMethods);
+			// 销毁方法父类晚于子类
 			destroyMethods.addAll(currDestroyMethods);
+			// 获取当前类的父类
 			targetClass = targetClass.getSuperclass();
 		}
+		// 如果当前类存在父类且父类不为Object基类则循环对父类进行处理
 		while (targetClass != null && targetClass != Object.class);
 
+		// 有一个不为空就封装一个LifecycleMetadata对象，否则就返回空的emptyLifecycleMetadata
 		return (initMethods.isEmpty() && destroyMethods.isEmpty() ? this.emptyLifecycleMetadata :
 				new LifecycleMetadata(clazz, initMethods, destroyMethods));
 	}
@@ -317,6 +323,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 			for (LifecycleElement element : this.initMethods) {
 				String methodIdentifier = element.getIdentifier();
 				if (!beanDefinition.isExternallyManagedInitMethod(methodIdentifier)) {
+					// 注册初始化调用方法
 					beanDefinition.registerExternallyManagedInitMethod(methodIdentifier);
 					checkedInitMethods.add(element);
 					if (logger.isTraceEnabled()) {
@@ -328,6 +335,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 			for (LifecycleElement element : this.destroyMethods) {
 				String methodIdentifier = element.getIdentifier();
 				if (!beanDefinition.isExternallyManagedDestroyMethod(methodIdentifier)) {
+					// 注册销毁调用方法
 					beanDefinition.registerExternallyManagedDestroyMethod(methodIdentifier);
 					checkedDestroyMethods.add(element);
 					if (logger.isTraceEnabled()) {

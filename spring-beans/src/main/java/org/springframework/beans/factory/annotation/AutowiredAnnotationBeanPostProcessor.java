@@ -598,6 +598,8 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 		if (cachedArgument instanceof DependencyDescriptor) {
 			DependencyDescriptor descriptor = (DependencyDescriptor) cachedArgument;
 			Assert.state(this.beanFactory != null, "No BeanFactory available");
+			// 获取依赖的value值的工作，最终还是委托给beanFactory.resolveDependency去完成
+			// 这个接口方法由AutowireCapableBeanFactory提供，它提供了从bean工厂里获取依赖值的能力
 			return this.beanFactory.resolveDependency(descriptor, beanName, null, null);
 		}
 		else {
@@ -627,8 +629,10 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 		protected void inject(Object bean, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
 			Field field = (Field) this.member;
 			Object value;
+			// 如果缓存，从缓存中获取
 			if (this.cached) {
 				try {
+					// 如果 cachedFieldValue instanceof DependencyDescripter，则调用resolveDependency方法重新加载
 					value = resolvedCachedArgument(beanName, this.cachedFieldValue);
 				}
 				catch (NoSuchBeanDefinitionException ex) {
@@ -640,6 +644,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				value = resolveFieldValue(field, bean, beanName);
 			}
 			if (value != null) {
+				// 通过反射，给属性赋值
 				ReflectionUtils.makeAccessible(field);
 				field.set(bean, value);
 			}
@@ -647,25 +652,35 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 		@Nullable
 		private Object resolveFieldValue(Field field, Object bean, @Nullable String beanName) {
+			// 否则调用了resolveDependency方法。这个在前篇讲过，在populateBean方法中按照类型注入的时候就是通过此方法
+			// 也就是说明了 @Autowired和@Inject默认是按照类型注入的
 			DependencyDescriptor desc = new DependencyDescriptor(field, this.required);
 			desc.setContainingClass(bean.getClass());
 			Set<String> autowiredBeanNames = new LinkedHashSet<>(1);
 			Assert.state(beanFactory != null, "No BeanFactory available");
+			// 转换器使用的bean工厂的转换器
 			TypeConverter typeConverter = beanFactory.getTypeConverter();
 			Object value;
 			try {
+				// 获取依赖的value值的工作，最终还是委托给beanFactory.resolveDependency方法区完成
+				// 这个接口方法由AutowireCapableBeanFactory提供，它提供了从bean工厂里获取依赖值的能力
 				value = beanFactory.resolveDependency(desc, beanName, autowiredBeanNames, typeConverter);
 			}
 			catch (BeansException ex) {
 				throw new UnsatisfiedDependencyException(null, beanName, new InjectionPoint(field), ex);
 			}
+			// 把缓存值缓存起来
 			synchronized (this) {
+				// 如果没有缓存，则开始缓存
 				if (!this.cached) {
+					// 可以看到value!=null并且required=true才会进行缓存的处理
 					Object cachedFieldValue = null;
 					if (value != null || this.required) {
 						cachedFieldValue = desc;
 						registerDependentBeans(beanName, autowiredBeanNames);
+						// autowiredBeanNames里可能会有别名的名称，所以size可能大于1
 						if (autowiredBeanNames.size() == 1) {
+							// BeanFactory.isTypeMatch挺重要的，因为@Autowired是按照类型注入的
 							String autowiredBeanName = autowiredBeanNames.iterator().next();
 							if (beanFactory.containsBean(autowiredBeanName) &&
 									beanFactory.isTypeMatch(autowiredBeanName, field.getType())) {

@@ -43,6 +43,9 @@ public interface MergedBeanDefinitionPostProcessor extends BeanPostProcessor {
 	 * @param beanType the actual type of the managed bean instance
 	 * @param beanName the name of the bean
 	 * @see AbstractAutowireCapableBeanFactory#applyMergedBeanDefinitionPostProcessors
+	 *
+	 * spring通过此方法找出所有需要注入的字段，同时做缓存
+	 *
 	 */
 	void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName);
 
@@ -53,6 +56,9 @@ public interface MergedBeanDefinitionPostProcessor extends BeanPostProcessor {
 	 * @param beanName the name of the bean
 	 * @since 5.1
 	 * @see DefaultListableBeanFactory#resetBeanDefinition
+	 *
+	 * 用于BeanDefinition被修改后，清除容器的缓存
+	 *
 	 */
 	default void resetBeanDefinition(String beanName) {
 	}
