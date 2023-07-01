@@ -1394,13 +1394,24 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 
+
+			/**
+			 * 尝试针对descriptor所包装的对象类型是[stream，数组，Collection类型且对象类型是接口，Map]的情况，进行解析与依赖类型匹配的候选Bean对象
+			 * 并将其封装成相应的依赖类型对象
+			 */
 			Object multipleBeans = resolveMultipleBeans(descriptor, beanName, autowiredBeanNames, typeConverter);
+			// 如果multipleBeans不为null
 			if (multipleBeans != null) {
+				// 将multipleBeans返回出去
 				return multipleBeans;
 			}
 
+			// 尝试与type匹配的唯一候选bean对象
+			// 查找与type匹配的候选bean对象，构造成Map，key=bean名，val=Bean对象
 			Map<String, Object> matchingBeans = findAutowireCandidates(beanName, type, descriptor);
+			// 如果没有候选bean对象
 			if (matchingBeans.isEmpty()) {
+				// 如果descriptor需要注入
 				if (isRequired(descriptor)) {
 					raiseNoMatchingBeanFound(type, descriptor.getResolvableType(), descriptor);
 				}
