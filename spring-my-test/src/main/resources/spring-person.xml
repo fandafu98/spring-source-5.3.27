@@ -2,42 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:msb="http://www.mashibing.com/schema/user"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.mashibing.com/schema/user http://www.mashibing.com/schema/user.xsd
-		">
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder location="classpath:db.properties"/>
-
-	<msb:user id="msb" username="马士兵" email="mashibing@163.com" password="123"/>
-
-	<bean id="person" class="com.study.xml.Person" >
+	<bean id="person" class="com.study.xml.Person">
 		<property name="id" value="1"/>
 		<property name="name" value="张三"/>
 	</bean>
 
-	<bean id="customer" class="com.study.myEditor.Customer">
-		<property name="name" value="张三"/>
-		<property name="address" value="浙江省_杭州市_余杭区"/>
-	</bean>
-
-	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-		<property name="propertyEditorRegistrars">
-			<array>
-				<bean class="com.study.myEditor.AddressPropertyEditorRegistrar"/>
-			</array>
-		</property>
-	</bean>
-
-	<bean class="com.study.xml.MyBeanFactoryPostProcessor">
-
-	</bean>
-
-	<bean class="com.study.bdfpp.MyBeanDefinitionRegistryPostProcessor"/>
-
 	<context:component-scan base-package="com.study"/>
-
 
 </beans>
