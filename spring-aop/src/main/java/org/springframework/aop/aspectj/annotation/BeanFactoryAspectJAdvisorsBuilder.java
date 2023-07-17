@@ -83,14 +83,17 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	public List<Advisor> buildAspectJAdvisors() {
 		List<String> aspectNames = this.aspectBeanNames;
 
+		// aspectNames不为null表示获取过切面bean的通知并把这些通知进行了缓存，那么直接从缓存获取通知
 		if (aspectNames == null) {
 			synchronized (this) {
 				aspectNames = this.aspectBeanNames;
 				if (aspectNames == null) {
 					List<Advisor> advisors = new ArrayList<>();
 					aspectNames = new ArrayList<>();
+					// 把容器中的bean的名字获取出来
 					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 							this.beanFactory, Object.class, true, false);
+					// 遍历每个bean
 					for (String beanName : beanNames) {
 						if (!isEligibleBean(beanName)) {
 							continue;
@@ -101,17 +104,23 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						if (beanType == null) {
 							continue;
 						}
+						// 判断bean是否是切面bean
 						if (this.advisorFactory.isAspect(beanType)) {
+							// 把切面bean的名字添加到集合中，以便后续缓存起来
 							aspectNames.add(beanName);
 							AspectMetadata amd = new AspectMetadata(beanType, beanName);
 							if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 								MetadataAwareAspectInstanceFactory factory =
 										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
+								// 调用到ReflectiveAspectJAdvisorFactory的getAdvisors()方法来获取切面bean里的通知
 								List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 								if (this.beanFactory.isSingleton(beanName)) {
+									// 如果切面bean是单例，则缓存切面bean的通知
 									this.advisorsCache.put(beanName, classAdvisors);
 								}
 								else {
+									// 如果切面bean不是单例，则缓存切面bean的工厂
+									// 通过切面bean的工厂可以每次都生成切面bean的通知
 									this.aspectFactoryCache.put(beanName, factory);
 								}
 								advisors.addAll(classAdvisors);
@@ -130,25 +139,30 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						}
 					}
 					this.aspectBeanNames = aspectNames;
+					// 返回容器中的所有通知
 					return advisors;
 				}
 			}
 		}
 
+		// 执行到这里表示已经生成过通知并进行了缓存
 		if (aspectNames.isEmpty()) {
 			return Collections.emptyList();
 		}
 		List<Advisor> advisors = new ArrayList<>();
 		for (String aspectName : aspectNames) {
+			// 将每个切面bean的通知从缓存中获取出来并加到结果集合中
 			List<Advisor> cachedAdvisors = this.advisorsCache.get(aspectName);
 			if (cachedAdvisors != null) {
 				advisors.addAll(cachedAdvisors);
 			}
 			else {
+				// 非单例切面bean就使用其对应的工厂新生成通知，然后也加入到结果集合中
 				MetadataAwareAspectInstanceFactory factory = this.aspectFactoryCache.get(aspectName);
 				advisors.addAll(this.advisorFactory.getAdvisors(factory));
 			}
 		}
+		// 返回容器中的所有通知
 		return advisors;
 	}
 
