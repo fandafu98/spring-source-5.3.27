@@ -79,6 +79,9 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	 * <p>Creates a Spring Advisor for each AspectJ advice method.
 	 * @return the list of {@link org.springframework.aop.Advisor} beans
 	 * @see #isEligibleBean
+	 *
+	 * 寻找Aspect注解的面向对象，然后解析他的方法，通过注解来生成对应的通知期Advisor
+	 *
 	 */
 	public List<Advisor> buildAspectJAdvisors() {
 		List<String> aspectNames = this.aspectBeanNames;

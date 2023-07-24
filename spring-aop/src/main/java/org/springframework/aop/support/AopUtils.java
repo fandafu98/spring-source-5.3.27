@@ -242,13 +242,22 @@ public abstract class AopUtils {
 		if (!Proxy.isProxyClass(targetClass)) {
 			classes.add(ClassUtils.getUserClass(targetClass));
 		}
+		// 获取到targetClass所实现的接口的class对象，然后加入到集合中
 		classes.addAll(ClassUtils.getAllInterfacesForClassAsSet(targetClass));
 
+		// 循环所有的class对象
 		for (Class<?> clazz : classes) {
+			// 通过class获取到所有的方法
 			Method[] methods = ReflectionUtils.getAllDeclaredMethods(clazz);
+			// 循环我们的方法
 			for (Method method : methods) {
+				// 只要有一个方法能匹配到就返回true
+				// 这里就会有一个问题，因为在一个目标中可能会有多个方法存在，有的方法是满足这个切点的匹配规则的
+				// 但是也可能有一些方法是不匹配切点规则的，这里检测的是只有一个Method满足切点规则就返回true了
+				// 所以在运行时进行方法拦截的时候还会有一次运行时的方法切点规则匹配
 				if (introductionAwareMethodMatcher != null ?
 						introductionAwareMethodMatcher.matches(method, targetClass, hasIntroductions) :
+						// 通过方法匹配器进行匹配
 						methodMatcher.matches(method, targetClass)) {
 					return true;
 				}
