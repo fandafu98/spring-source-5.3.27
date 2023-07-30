@@ -330,9 +330,12 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		if (StringUtils.hasLength(beanName) && this.targetSourcedBeans.contains(beanName)) {
 			return bean;
 		}
+		// 这里advisedBeans缓存了已经进行了代理的bean，如果缓存中存在，则可以直接返回
 		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey))) {
 			return bean;
 		}
+		// 这里isInfrastructureClass()用于判断当前bean是否为Spring系统自带的bean
+		// 自带的bean不用进行代理，shouldSkip()则用于判断当前bean是否应该被略过
 		if (isInfrastructureClass(bean.getClass()) || shouldSkip(bean.getClass(), beanName)) {
 			this.advisedBeans.put(cacheKey, Boolean.FALSE);
 			return bean;
@@ -440,13 +443,16 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	protected Object createProxy(Class<?> beanClass, @Nullable String beanName,
 			@Nullable Object[] specificInterceptors, TargetSource targetSource) {
 
+		// 给bean定义设置暴露属性
 		if (this.beanFactory instanceof ConfigurableListableBeanFactory) {
 			AutoProxyUtils.exposeTargetClass((ConfigurableListableBeanFactory) this.beanFactory, beanName, beanClass);
 		}
 
-		// 创建ProxyFactory来创建动态代理对象
+		// 创建ProxyFactory来创建动态代理对象，创建代理工厂
 		ProxyFactory proxyFactory = new ProxyFactory();
+		// 获取当前类中相关属性
 		proxyFactory.copyFrom(this);
+
 
 		if (proxyFactory.isProxyTargetClass()) {
 			// Explicit handling of JDK proxy targets and lambdas (for introduction advice scenarios)
@@ -485,7 +491,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			classLoader = ((SmartClassLoader) classLoader).getOriginalClassLoader();
 		}
 
-		// 调用ProxyFactory的getProxy()方法创建动态代理对象
+		// 调用ProxyFactory的getProxy()方法创建动态代理对象，重点方法要点进去
 		return proxyFactory.getProxy(classLoader);
 	}
 

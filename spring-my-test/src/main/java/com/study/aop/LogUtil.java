@@ -22,27 +22,27 @@ public class LogUtil {
 	public void start(JoinPoint joinPoint) {
 		Signature signature = joinPoint.getSignature();
 		Object[] args = joinPoint.getArgs();
-		System.out.println(signature.getName() + Arrays.asList(args));
+		System.out.println("aop切面LogUtil的start方法："+signature.getName() + Arrays.asList(args));
 
 	}
 
 
 	public void stop(JoinPoint joinPoint, Object result) {
 		Signature signature = joinPoint.getSignature();
-		System.out.println(signature.getName() + result);
+		System.out.println("aop切面LogUtil的stop方法："+signature.getName() + result);
 
 	}
 
 	private void logException(JoinPoint joinPoint, Exception e) {
 		Signature signature = joinPoint.getSignature();
-		System.out.println(signature.getName() + e.getMessage());
+		System.out.println("aop切面LogUtil的logException方法："+signature.getName() + e.getMessage());
 
 	}
 
 
 	public void logFinally(JoinPoint joinPoint) {
 		Signature signature = joinPoint.getSignature();
-		System.out.println(signature.getName());
+		System.out.println("aop切面LogUtil的logFinally方法："+signature.getName());
 	}
 
 
@@ -51,10 +51,10 @@ public class LogUtil {
 		Object[] args = proceedingJoinPoint.getArgs();
 		Object result = null;
 		try {
-			System.out.println(signature.getName() + Arrays.asList(args));
+			System.out.println("aop切面LogUtil的around方法："+signature.getName() + Arrays.asList(args));
 			result = proceedingJoinPoint.proceed(args);
 		} catch (Throwable e) {
-			System.out.println(signature.getName() + e.getMessage());
+			System.out.println("aop切面LogUtil的around异常方法："+signature.getName() + e.getMessage());
 			throw e;
 		}
 		return result;
