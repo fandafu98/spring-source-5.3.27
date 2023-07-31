@@ -14,7 +14,8 @@ public class AopStartApplication {
 	public static void main(String[] args) {
 		MyClassPathXmlApplicationContext applicationContext = new MyClassPathXmlApplicationContext("spring-aop.xml");
 		MyCalculator bean = applicationContext.getBean(MyCalculator.class);
-		System.out.println(bean.add(1, 1));
+		Integer addValue = bean.add(1, 1);
+		System.out.println(addValue);
 	}
 
 }
