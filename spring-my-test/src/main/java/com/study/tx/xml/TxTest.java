@@ -5,9 +5,9 @@
  * @author: 郑延康
  * @date: 2023-08-02 20:42
  */
-package com.study.tx;
+package com.study.tx.xml;
 
-import com.study.tx.service.BookService;
+import com.study.tx.xml.service.BookService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

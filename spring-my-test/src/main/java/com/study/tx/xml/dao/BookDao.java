@@ -5,7 +5,7 @@
  * @author: 郑延康
  * @date: 2023-08-02 20:42
  */
-package com.study.tx.dao;
+package com.study.tx.xml.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
