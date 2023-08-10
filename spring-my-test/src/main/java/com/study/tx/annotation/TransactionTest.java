@@ -7,6 +7,10 @@
  */
 package com.study.tx.annotation;
 
+import com.study.tx.annotation.config.TransactionConfig;
+import com.study.tx.annotation.service.BookService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 /**
  *
  *
@@ -14,4 +18,14 @@ package com.study.tx.annotation;
  * @version TransactionTest.java, v 0.1 2023-08-08 14:34
  */
 public class TransactionTest {
+
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+		applicationContext.register(TransactionConfig.class);
+		applicationContext.refresh();
+		BookService bookService = applicationContext.getBean(BookService.class);
+		bookService.checkout("zhangsan",1);
+
+	}
+
 }

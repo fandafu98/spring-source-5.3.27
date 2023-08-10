@@ -30,10 +30,10 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class TransactionConfig {
 
-	@Value("com.mysql.jdbc.Driver")
+	@Value("com.mysql.cj.jdbc.Driver")
 	private String driverClassName;
 
-	@Value("jdbc:mysql//121.41.78.85:13306/spring")
+	@Value("jdbc:mysql://121.41.78.85:13306/spring")
 	private String url;
 
 	@Value("root")
