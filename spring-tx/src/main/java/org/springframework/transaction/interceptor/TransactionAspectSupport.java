@@ -378,7 +378,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		}
 
 		PlatformTransactionManager ptm = asPlatformTransactionManager(tm);
-		// 获取连接点的唯一标识，类名+方法名
+		// 获取连接点的唯一标识，全限定类名+方法名
 		final String joinpointIdentification = methodIdentification(method, targetClass, txAttr);
 
 		// 声明式事务处理

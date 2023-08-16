@@ -240,12 +240,12 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 
 	@Override
 	protected Object doGetTransaction() {
-		DataSourceTransactionObject txObject = new DataSourceTransactionObject();
-		txObject.setSavepointAllowed(isNestedTransactionAllowed());
+		DataSourceTransactionObject txObject = new DataSourceTransactionObject(); // 创建一个数据源事务对象
+		txObject.setSavepointAllowed(isNestedTransactionAllowed()); // 是否允许当前事务设置保存点，Nested嵌套
 		ConnectionHolder conHolder =
 				(ConnectionHolder) TransactionSynchronizationManager.getResource(obtainDataSource());
-		txObject.setConnectionHolder(conHolder, false);
-		return txObject;
+		txObject.setConnectionHolder(conHolder, false); // 非新创建连接则写false
+		return txObject; // 返回事务对象
 	}
 
 	@Override
@@ -259,50 +259,55 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 		DataSourceTransactionObject txObject = (DataSourceTransactionObject) transaction;
 		Connection con = null;
 
-		try {
+		try { // 判断事务对象没有数据库连接持有器
 			if (!txObject.hasConnectionHolder() ||
 					txObject.getConnectionHolder().isSynchronizedWithTransaction()) {
-				Connection newCon = obtainDataSource().getConnection();
+				Connection newCon = obtainDataSource().getConnection(); // 通过数据源获取一个数据库连接对象
 				if (logger.isDebugEnabled()) {
 					logger.debug("Acquired Connection [" + newCon + "] for JDBC transaction");
-				}
+				} // 把我们的数据库连接包装成一个ConnectionHolder对象，然后设置到我们的txObject对象中去
 				txObject.setConnectionHolder(new ConnectionHolder(newCon), true);
 			}
-
+			// 标记当前的连接是一个同步事物
 			txObject.getConnectionHolder().setSynchronizedWithTransaction(true);
 			con = txObject.getConnectionHolder().getConnection();
-
+			// 为当前的事务设置隔离级别
 			Integer previousIsolationLevel = DataSourceUtils.prepareConnectionForTransaction(con, definition);
-			txObject.setPreviousIsolationLevel(previousIsolationLevel);
-			txObject.setReadOnly(definition.isReadOnly());
+			txObject.setPreviousIsolationLevel(previousIsolationLevel); // 设置先前隔离级别
+			txObject.setReadOnly(definition.isReadOnly()); // 设置是否只读
 
 			// Switch to manual commit if necessary. This is very expensive in some JDBC drivers,
 			// so we don't want to do it unnecessarily (for example if we've explicitly
-			// configured the connection pool to set it already).
+			// configured the connection pool to set it already). // 关闭自动提交
 			if (con.getAutoCommit()) {
 				txObject.setMustRestoreAutoCommit(true);
 				if (logger.isDebugEnabled()) {
 					logger.debug("Switching JDBC Connection [" + con + "] to manual commit");
 				}
+				// 关闭自动提交
 				con.setAutoCommit(false);
 			}
-
+			// 判断事务是否需要设置为只读事务
 			prepareTransactionalConnection(con, definition);
+			// 标记激活事务
 			txObject.getConnectionHolder().setTransactionActive(true);
 
-			int timeout = determineTimeout(definition);
+			int timeout = determineTimeout(definition); // 设置事务超时时间
 			if (timeout != TransactionDefinition.TIMEOUT_DEFAULT) {
 				txObject.getConnectionHolder().setTimeoutInSeconds(timeout);
 			}
 
 			// Bind the connection holder to the thread.
+			// 绑定我们的数据源和连接到我们的同步管理器上，把数据源作为key，数据库连接作为value，设置到线程变量中
 			if (txObject.isNewConnectionHolder()) {
+				// 将当前获取到的连接绑定到当前线程
 				TransactionSynchronizationManager.bindResource(obtainDataSource(), txObject.getConnectionHolder());
 			}
 		}
 
 		catch (Throwable ex) {
 			if (txObject.isNewConnectionHolder()) {
+				// 释放数据库连接
 				DataSourceUtils.releaseConnection(con, obtainDataSource());
 				txObject.setConnectionHolder(null, false);
 			}

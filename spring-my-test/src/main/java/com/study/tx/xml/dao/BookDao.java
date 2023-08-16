@@ -8,6 +8,7 @@
 package com.study.tx.xml.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -27,18 +28,20 @@ public class BookDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-
 	public void updateStock(int id){
-
+		String sql = "update book_stock set stock=stock-1 where id = ?";
+		jdbcTemplate.update(sql,id);
 	}
 
-
 	public int getPrice(int id){
-		return 1;
+		String sql = "select price from book where id = ?";
+		return jdbcTemplate.queryForObject(sql,Integer.class,id);
 	}
 
 	public void updateBalance(String username,int price){
-
+		String sql = "update account set balance=balance- ? where username = ?";
+		jdbcTemplate.update(sql,price,username);
 	}
+
 
 }

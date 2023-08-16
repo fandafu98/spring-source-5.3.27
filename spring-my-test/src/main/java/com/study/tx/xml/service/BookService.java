@@ -8,6 +8,7 @@
 package com.study.tx.xml.service;
 
 import com.study.tx.xml.dao.BookDao;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -20,11 +21,14 @@ public class BookService {
 
 	BookDao bookDao;
 
-
 	public void checkout(String username,int id){
 		bookDao.updateStock(id);
 		int price = bookDao.getPrice(id);
-		bookDao.updateBalance(username,id);
+		bookDao.updateBalance(username,price);
+	}
+
+	public void updateStock(int id){
+		bookDao.updateStock(id);
 	}
 
 

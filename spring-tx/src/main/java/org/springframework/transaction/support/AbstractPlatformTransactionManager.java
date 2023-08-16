@@ -343,10 +343,10 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 
 		// Use defaults if no transaction definition given.
 		TransactionDefinition def = (definition != null ? definition : TransactionDefinition.withDefaults());
-
+		// 重点！！！获取事务
 		Object transaction = doGetTransaction();
 		boolean debugEnabled = logger.isDebugEnabled();
-
+		// 判断当前线程是否存在事务，判断依据为当前线程记录的连接不为空且连续中的transactionActive属性不为空
 		if (isExistingTransaction(transaction)) {
 			// Existing transaction found -> check propagation behavior to find out how to behave.
 			return handleExistingTransaction(def, transaction, debugEnabled);
@@ -356,12 +356,12 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 		if (def.getTimeout() < TransactionDefinition.TIMEOUT_DEFAULT) {
 			throw new InvalidTimeoutException("Invalid transaction timeout", def.getTimeout());
 		}
-
+		// 如果当前线程不存在事务，但是PropagationBehavior却被声明为PROPAGATION_MANDATORY抛出异常
 		// No existing transaction found -> check propagation behavior to find out how to proceed.
 		if (def.getPropagationBehavior() == TransactionDefinition.PROPAGATION_MANDATORY) {
 			throw new IllegalTransactionStateException(
 					"No existing transaction found for transaction marked with propagation 'mandatory'");
-		}
+		}// 这三种类型都需要新建事务
 		else if (def.getPropagationBehavior() == TransactionDefinition.PROPAGATION_REQUIRED ||
 				def.getPropagationBehavior() == TransactionDefinition.PROPAGATION_REQUIRES_NEW ||
 				def.getPropagationBehavior() == TransactionDefinition.PROPAGATION_NESTED) {
@@ -393,12 +393,12 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 	 */
 	private TransactionStatus startTransaction(TransactionDefinition definition, Object transaction,
 			boolean debugEnabled, @Nullable SuspendedResourcesHolder suspendedResources) {
-
+		// 是否需要新同步
 		boolean newSynchronization = (getTransactionSynchronization() != SYNCHRONIZATION_NEVER);
-		DefaultTransactionStatus status = newTransactionStatus(
+		DefaultTransactionStatus status = newTransactionStatus( // 创建新的事物
 				definition, transaction, true, newSynchronization, debugEnabled, suspendedResources);
-		doBegin(transaction, definition);
-		prepareSynchronization(status, definition);
+		doBegin(transaction, definition); // 开启事物和连接
+		prepareSynchronization(status, definition); // 新同步事物的设置，针对于当前线程的设置
 		return status;
 	}
 
@@ -430,7 +430,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 						definition.getName() + "]");
 			}
 			SuspendedResourcesHolder suspendedResources = suspend(transaction);
-			try {
+			try { // 创建一个新的非事务状态（保存了上一个存在事务状态的属性）
 				return startTransaction(definition, transaction, debugEnabled, suspendedResources);
 			}
 			catch (RuntimeException | Error beginEx) {
@@ -438,16 +438,16 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 				throw beginEx;
 			}
 		}
-
+		// 嵌套事务
 		if (definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_NESTED) {
-			if (!isNestedTransactionAllowed()) {
+			if (!isNestedTransactionAllowed()) { // 不允许就报异常
 				throw new NestedTransactionNotSupportedException(
 						"Transaction manager does not allow nested transactions by default - " +
 						"specify 'nestedTransactionAllowed' property with value 'true'");
 			}
 			if (debugEnabled) {
 				logger.debug("Creating nested transaction with name [" + definition.getName() + "]");
-			}
+			} // 嵌套事务的处理
 			if (useSavepointForNestedTransaction()) {
 				// Create savepoint within existing Spring-managed transaction,
 				// through the SavepointManager API implemented by TransactionStatus.
@@ -514,7 +514,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 	protected DefaultTransactionStatus newTransactionStatus(
 			TransactionDefinition definition, @Nullable Object transaction, boolean newTransaction,
 			boolean newSynchronization, boolean debug, @Nullable Object suspendedResources) {
-
+		// 是否需要新同步，只要有新同步且当前无同步激活事务
 		boolean actualNewSynchronization = newSynchronization &&
 				!TransactionSynchronizationManager.isSynchronizationActive();
 		return new DefaultTransactionStatus(
