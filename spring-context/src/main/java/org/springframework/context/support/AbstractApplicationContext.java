@@ -609,7 +609,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				// 最核心，最重点的方法
 				// 实例化所有剩余（非懒加载）的单例对象
+				// 从此方法开始进行对象的创建，包含了实例化，初始化，循环依赖，AOP等核心逻辑的处理过程，
+				// 此步骤是最最核心且关键的点，要对其中的细节足够清楚
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
