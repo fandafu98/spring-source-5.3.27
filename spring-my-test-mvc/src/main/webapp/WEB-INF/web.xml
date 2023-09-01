@@ -12,11 +12,13 @@
 	<servlet>
 		<servlet-name>mvc-test</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-
+		<!--SpringMVC配置文件-->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:applicationContext.xml</param-value>
 		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
 	</servlet>
 
 	<servlet-mapping>

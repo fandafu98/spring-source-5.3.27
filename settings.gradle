@@ -58,5 +58,5 @@ settings.gradle.projectsLoaded {
 	}
 }
 include 'spring-my-test'
-include 'spring-my-mvc-test'
+include 'spring-my-test-mvc'
 
