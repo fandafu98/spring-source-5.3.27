@@ -11,6 +11,8 @@ import com.study.tx.annotation.config.TransactionConfig;
 import com.study.tx.annotation.service.BookService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.function.Function;
+
 /**
  *
  *
