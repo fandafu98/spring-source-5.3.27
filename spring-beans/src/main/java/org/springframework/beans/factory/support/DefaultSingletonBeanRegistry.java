@@ -89,7 +89,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
 
 	/**
-	 * Cache of early singleton objects: bean name to bean instance.
+	 * Cache of early singleton objects:  bean name to bean instance.
 	 *
 	 * 二级缓存
 	 * 保存BeanName和创建bean实例之间的关系，与singletonFactories的不同之处在于，
@@ -106,7 +106,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
 	/** Names of beans currently excluded from in creation checks. */
-	private final Set<String> inCreationCheckExclusions =
+	private final Set<String> inCreationCheckExclusions  =
 			Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
 	/** Collection of suppressed Exceptions, available for associating related causes. */

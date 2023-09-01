@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.Flow;
 import kotlinx.coroutines.reactor.MonoKt;
 import kotlinx.coroutines.reactor.ReactorFlowKt;
 import org.reactivestreams.Publisher;
+import reactor.core.CoreSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -51,38 +52,46 @@ public abstract class CoroutinesUtils {
 	/**
 	 * Convert a {@link Deferred} instance to a {@link Mono}.
 	 */
-	public static <T> Mono<T> deferredToMono(Deferred<T> source) {
+	// TODO
+	/*public static <T> Mono<T> deferredToMono(Deferred<T> source) {
 		return MonoKt.mono(Dispatchers.getUnconfined(),
 				(scope, continuation) -> source.await(continuation));
-	}
+	}*/
 
 	/**
 	 * Convert a {@link Mono} instance to a {@link Deferred}.
 	 */
-	public static <T> Deferred<T> monoToDeferred(Mono<T> source) {
+	/*public static <T> Deferred<T> monoToDeferred(Mono<T> source) {
 		return BuildersKt.async(GlobalScope.INSTANCE, Dispatchers.getUnconfined(),
 				CoroutineStart.DEFAULT,
 				(scope, continuation) -> MonoKt.awaitSingleOrNull(source, continuation));
-	}
+	}*/
 
 	/**
 	 * Invoke a suspending function and converts it to {@link Mono} or
 	 * {@link Flux}.
 	 */
 	public static Publisher<?> invokeSuspendingFunction(Method method, Object target, Object... args) {
-		KFunction<?> function = Objects.requireNonNull(ReflectJvmMapping.getKotlinFunction(method));
+		// TODO
+		/*KFunction<?> function = Objects.requireNonNull(ReflectJvmMapping.getKotlinFunction(method));
 		if (method.isAccessible() && !KCallablesJvm.isAccessible(function)) {
 			KCallablesJvm.setAccessible(function, true);
 		}
-		KClassifier classifier = function.getReturnType().getClassifier();
-		Mono<Object> mono = MonoKt.mono(Dispatchers.getUnconfined(), (scope, continuation) ->
+		KClassifier classifier = function.getReturnType().getClassifier();*/
+		/*Mono<Object> mono = MonoKt.mono(Dispatchers.getUnconfined(), (scope, continuation) ->
 					KCallables.callSuspend(function, getSuspendedFunctionArgs(target, args), continuation))
 				.filter(result -> !Objects.equals(result, Unit.INSTANCE))
 				.onErrorMap(InvocationTargetException.class, InvocationTargetException::getTargetException);
 		if (classifier != null && classifier.equals(JvmClassMappingKt.getKotlinClass(Flow.class))) {
 			return mono.flatMapMany(CoroutinesUtils::asFlux);
 		}
-		return mono;
+		return mono;*/
+		return new Mono<Object>() {
+			@Override
+			public void subscribe(CoreSubscriber<? super Object> actual) {
+
+			}
+		};
 	}
 
 	private static Object[] getSuspendedFunctionArgs(Object target, Object... args) {
