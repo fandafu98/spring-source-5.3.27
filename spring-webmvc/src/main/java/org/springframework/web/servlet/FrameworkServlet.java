@@ -527,7 +527,9 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 		long startTime = System.currentTimeMillis();
 
 		try {
+			// 创建或刷新WebApplicationContext实例并对servlet功能所使用的变量进行初始化
 			this.webApplicationContext = initWebApplicationContext();
+			// 模板方法，空实现，留给子类扩展
 			initFrameworkServlet();
 		}
 		catch (ServletException | RuntimeException ex) {
@@ -558,15 +560,22 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * @see #setContextConfigLocation
 	 */
 	protected WebApplicationContext initWebApplicationContext() {
+		// 获得根webApplicationContext对象
 		WebApplicationContext rootContext =
 				WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		// 获取WebApplicationContext wac对象
 		WebApplicationContext wac = null;
 
+		// 如果构造方法中已经传入webApplicationContext属性，则直接使用
+		// 此方法主要用于servlet3.0之后的环境，也就是说可以通过ServletContext.addServlet的方法注册Servlet，
+		// 此时就可以在创建FrameworkServlet和其他子类的时候通过构造方法传递已经准备好的webApplicationContext
 		if (this.webApplicationContext != null) {
 			// A context instance was injected at construction time -> use it
 			wac = this.webApplicationContext;
+			// 如果是ConfigurableWebApplicationContext类型，并且未激活，则进行初始化
 			if (wac instanceof ConfigurableWebApplicationContext) {
 				ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) wac;
+				// 未激活
 				if (!cwac.isActive()) {
 					// The context has not yet been refreshed -> provide services such as
 					// setting the parent context, setting the application context id, etc
@@ -649,22 +658,22 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * @see org.springframework.web.context.support.XmlWebApplicationContext
 	 */
 	protected WebApplicationContext createWebApplicationContext(@Nullable ApplicationContext parent) {
-		Class<?> contextClass = getContextClass();
-		if (!ConfigurableWebApplicationContext.class.isAssignableFrom(contextClass)) {
+		Class<?> contextClass = getContextClass();// 获取servlet的初始化参数contextClass，如果没有配置默认为XmlWebApplicationContext.class
+		if (!ConfigurableWebApplicationContext.class.isAssignableFrom(contextClass)) { // 如果非ConfigurableWebApplicationContext类型，抛出ConfigurableWebApplicationContext异常
 			throw new ApplicationContextException(
 					"Fatal initialization error in servlet with name '" + getServletName() +
 					"': custom WebApplicationContext class [" + contextClass.getName() +
 					"] is not of type ConfigurableWebApplicationContext");
-		}
+		} // 通过反射方法实例化contextClass
 		ConfigurableWebApplicationContext wac =
 				(ConfigurableWebApplicationContext) BeanUtils.instantiateClass(contextClass);
-
+		// 设置environment
 		wac.setEnvironment(getEnvironment());
-		wac.setParent(parent);
-		String configLocation = getContextConfigLocation();
+		wac.setParent(parent); // parent为在ContextLoaderListener中创建的实例，在ContextLoaderListener加载的时候初始化的WebApplicationContext类型实例
+		String configLocation = getContextConfigLocation(); // 获取ContextConfigLocation属性，配置在servlet初始化参数中
 		if (configLocation != null) {
-			wac.setConfigLocation(configLocation);
-		}
+			wac.setConfigLocation(configLocation); // 将设置的contextConfigLocation参数传给wac，默认传入WEB-INF/servletName-servlet.xml
+		}// 配置和初始化wac
 		configureAndRefreshWebApplicationContext(wac);
 
 		return wac;
