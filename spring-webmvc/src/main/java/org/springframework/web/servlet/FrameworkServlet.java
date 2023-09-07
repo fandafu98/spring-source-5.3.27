@@ -560,7 +560,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * @see #setContextConfigLocation
 	 */
 	protected WebApplicationContext initWebApplicationContext() {
-		// 获得根webApplicationContext对象
+		// 获得根webApplicationContext对象，就是刚创建好的Spring容器
 		WebApplicationContext rootContext =
 				WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 		// 获取WebApplicationContext wac对象
@@ -693,22 +693,28 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 			}
 		}
 
+		// 设置wac的servletContext,servletConfig,nameSpace属性
 		wac.setServletContext(getServletContext());
 		wac.setServletConfig(getServletConfig());
 		wac.setNamespace(getNamespace());
+		// 添加监听器sourceFilteringListener到wac中，实际监听的是ContextRefreshListener所监听的事件，监听ContextRefreshEvent事件
+		// 当接收到消息之后会调用onApplicationEvent方法，调用onRefresh方法，并将refreshEventReceived标志设置为true，表示已经refresh过
 		wac.addApplicationListener(new SourceFilteringListener(wac, new ContextRefreshListener()));
 
 		// The wac environment's #initPropertySources will be called in any case when the context
 		// is refreshed; do it eagerly here to ensure servlet property sources are in place for
 		// use in any post-processing or initialization that occurs below prior to #refresh
+		// 获取环境对象并且添加相关属性
 		ConfigurableEnvironment env = wac.getEnvironment();
 		if (env instanceof ConfigurableWebEnvironment) {
 			((ConfigurableWebEnvironment) env).initPropertySources(getServletContext(), getServletConfig());
 		}
 
+		// 执行处理完WebApplicationContext后的逻辑，此处为空方法，不做任何实现
 		postProcessWebApplicationContext(wac);
+		// 执行自定义初始化context
 		applyInitializers(wac);
-		wac.refresh();
+		wac.refresh(); // 刷新wac，从而初始化wac
 	}
 
 	/**
@@ -848,7 +854,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		this.refreshEventReceived = true;
 		synchronized (this.onRefreshMonitor) {
-			onRefresh(event.getApplicationContext());
+			onRefresh(event.getApplicationContext());// 处理事件中ApplicationContext对象，空实现，子类DispatcherServlet会实现
 		}
 	}
 
@@ -883,12 +889,12 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		// 获得请求方法
 		HttpMethod httpMethod = HttpMethod.resolve(request.getMethod());
-		if (httpMethod == HttpMethod.PATCH || httpMethod == null) {
+		if (httpMethod == HttpMethod.PATCH || httpMethod == null) { // 处理patch请求
 			processRequest(request, response);
 		}
-		else {
+		else { // 处理其他类型的请求
 			super.service(request, response);
 		}
 	}
@@ -997,21 +1003,30 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	protected final void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// 记录当前时间，用于计算处理请求花费的时间
 		long startTime = System.currentTimeMillis();
+		// 记录异常，用于保存处理请求过程中发送的异常
 		Throwable failureCause = null;
 
+		// 获取LocaleContextHolder中原来保存的LocaleContext（保存的本地化信息）
 		LocaleContext previousLocaleContext = LocaleContextHolder.getLocaleContext();
+		// 获取当前请求的LocalContext
 		LocaleContext localeContext = buildLocaleContext(request);
 
+		// 获取RequestContextHolder中原来保存的RequestAttributes（管理request和session属性）
 		RequestAttributes previousAttributes = RequestContextHolder.getRequestAttributes();
+		// 获取当前请求的ServletRequestAttributes
 		ServletRequestAttributes requestAttributes = buildRequestAttributes(request, response, previousAttributes);
 
+		// 获取异步管理器
 		WebAsyncManager asyncManager = WebAsyncUtils.getAsyncManager(request);
 		asyncManager.registerCallableInterceptor(FrameworkServlet.class.getName(), new RequestBindingInterceptor());
 
+		// 将当前请求的LocaleContext和ServletRequestAttribute设置到LocaleContextHolder和RequestContextHolder
 		initContextHolders(request, localeContext, requestAttributes);
 
 		try {
+			// 执行真正的逻辑
 			doService(request, response);
 		}
 		catch (ServletException | IOException ex) {
