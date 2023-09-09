@@ -377,13 +377,18 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 	@Override
 	@Nullable
 	protected HandlerMethod getHandlerInternal(HttpServletRequest request) throws Exception {
+		// 获取访问路径，一般类似于request.getServletPath()，返回不含cotextPath的访问路径
 		String lookupPath = initLookupPath(request);
+		// 获取读锁
 		this.mappingRegistry.acquireReadLock();
 		try {
-			HandlerMethod handlerMethod = lookupHandlerMethod(lookupPath, request);
+			// 获取HandlerMethod作为handler对象，这里设计到路径匹配的优先级
+			// 优先级：精确匹配>最长路径匹配>扩展名匹配
+			HandlerMethod handlerMethod = lookupHandlerMethod(lookupPath, request);// handlerMethod内部包含有bean对象，其实指的是对应的controller
 			return (handlerMethod != null ? handlerMethod.createWithResolvedBean() : null);
 		}
 		finally {
+			// 释放读锁
 			this.mappingRegistry.releaseReadLock();
 		}
 	}
@@ -400,16 +405,21 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 	@Nullable
 	protected HandlerMethod lookupHandlerMethod(String lookupPath, HttpServletRequest request) throws Exception {
 		List<Match> matches = new ArrayList<>();
+		// 首先根据lookupPath获取到匹配条件
 		List<T> directPathMatches = this.mappingRegistry.getMappingsByDirectPath(lookupPath);
+		// 将找到的匹配条件添加到matches
 		if (directPathMatches != null) {
 			addMatchingMappings(directPathMatches, matches, request);
 		}
+		// 如果不能直接使用lookupPath得到匹配条件，则将所有匹配条件加入matches
 		if (matches.isEmpty()) {
 			addMatchingMappings(this.mappingRegistry.getRegistrations().keySet(), matches, request);
 		}
+		// 将包含匹配条件和handler的matches排序，并取第一个作为bestMatch，如果前面两个排序相同则抛出异常
 		if (!matches.isEmpty()) {
 			Match bestMatch = matches.get(0);
 			if (matches.size() > 1) {
+				// 创建MatchComparator对象，排序matches结果，排序器
 				Comparator<Match> comparator = new MatchComparator(getMappingComparator(request));
 				matches.sort(comparator);
 				bestMatch = matches.get(0);
@@ -424,6 +434,8 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 					}
 				}
 				else {
+					// 比较bestMatch和secondBestMatch，如果相等，说明有问题，抛出异常
+					// 因为，两个优先级一样高，说明无法判断谁更优先
 					Match secondBestMatch = matches.get(1);
 					if (comparator.compare(bestMatch, secondBestMatch) == 0) {
 						Method m1 = bestMatch.getHandlerMethod().getMethod();
@@ -434,11 +446,14 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 					}
 				}
 			}
-			request.setAttribute(BEST_MATCHING_HANDLER_ATTRIBUTE, bestMatch.getHandlerMethod());
+			request.setAttribute(BEST_MATCHING_HANDLER_ATTRIBUTE, bestMatch .getHandlerMethod());
+			// 处理首个Match对象
 			handleMatch(bestMatch.mapping, lookupPath, request);
+			// 返回首个Match对象的handlerMethod属性
 			return bestMatch.getHandlerMethod();
 		}
 		else {
+			// 如果匹配不到，则处理不匹配的情况
 			return handleNoMatch(this.mappingRegistry.getRegistrations().keySet(), lookupPath, request);
 		}
 	}

@@ -495,14 +495,18 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 	@Override
 	@Nullable
 	public final HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
+		// 获取处理器（HandlerMethod或者HandlerExecuttionChain），该方法是抽象方法，由子类实现
 		Object handler = getHandlerInternal(request);
 		if (handler == null) {
+			// 获得不到，则使用默认处理器
 			handler = getDefaultHandler();
 		}
 		if (handler == null) {
+			// 还是获得不到，则返回null
 			return null;
 		}
 		// Bean name or resolved handler?
+		// 如果找到的处理器是String类型，则从Spring容器中找到对应的Bean作为处理器
 		if (handler instanceof String) {
 			String handlerName = (String) handler;
 			handler = obtainApplicationContext().getBean(handlerName);
@@ -512,7 +516,7 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 		if (!ServletRequestPathUtils.hasCachedPath(request)) {
 			initLookupPath(request);
 		}
-
+		// 创建HandlerExecutionChain对象（包含处理器和拦截器）
 		HandlerExecutionChain executionChain = getHandlerExecutionChain(handler, request);
 
 		if (logger.isTraceEnabled()) {
