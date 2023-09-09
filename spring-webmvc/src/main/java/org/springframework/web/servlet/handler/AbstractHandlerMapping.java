@@ -605,16 +605,20 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 	 * @see #getAdaptedInterceptors()
 	 */
 	protected HandlerExecutionChain getHandlerExecutionChain(Object handler, HttpServletRequest request) {
+		// 创建HandlerExecutionChain对象
 		HandlerExecutionChain chain = (handler instanceof HandlerExecutionChain ?
 				(HandlerExecutionChain) handler : new HandlerExecutionChain(handler));
 
+		// 遍历adaptedInterceptors数组，获得请求匹配的拦截器
 		for (HandlerInterceptor interceptor : this.adaptedInterceptors) {
+			// 需要匹配，若路径匹配，则添加到chain中
 			if (interceptor instanceof MappedInterceptor) {
 				MappedInterceptor mappedInterceptor = (MappedInterceptor) interceptor;
 				if (mappedInterceptor.matches(request)) {
 					chain.addInterceptor(mappedInterceptor.getInterceptor());
 				}
 			}
+			// 无需匹配，直接添加到chain中
 			else {
 				chain.addInterceptor(interceptor);
 			}

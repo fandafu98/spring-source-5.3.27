@@ -1096,7 +1096,7 @@ public class DispatcherServlet extends FrameworkServlet {
 					if (new ServletWebRequest(request, response).checkNotModified(lastModified) && isGet) {
 						return;
 					}
-				}
+				} 
 				// 执行响应Interceptor的preHandler
 				// 注意：该方法如果有一个拦截器的前置处理器返回false，则开始倒序触发所有的拦截器的 已完成处理
 				if (!mappedHandler.applyPreHandle(processedRequest, response)) {

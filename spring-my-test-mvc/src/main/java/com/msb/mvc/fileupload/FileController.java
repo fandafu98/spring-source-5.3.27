@@ -5,7 +5,7 @@
  * @author: 郑延康
  * @date: 2023-09-08 20:24
  */
-package com.msb.mvc.bean;
+package com.msb.mvc.fileupload;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
