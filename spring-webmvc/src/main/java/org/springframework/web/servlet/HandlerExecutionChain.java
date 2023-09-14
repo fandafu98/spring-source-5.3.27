@@ -145,11 +145,11 @@ public class HandlerExecutionChain {
 	boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		for (int i = 0; i < this.interceptorList.size(); i++) {
 			HandlerInterceptor interceptor = this.interceptorList.get(i);
-			if (!interceptor.preHandle(request, response, this.handler)) {
-				triggerAfterCompletion(request, response, null);
-				return false;
+			if (!interceptor.preHandle(request, response, this.handler)) {// 前置处理
+				triggerAfterCompletion(request, response, null); // 已完成处理拦截器
+				return false; // 返回false，前置处理失败
 			}
-			this.interceptorIndex = i;
+			this.interceptorIndex = i; // 标记interceptorIndex位置
 		}
 		return true;
 	}

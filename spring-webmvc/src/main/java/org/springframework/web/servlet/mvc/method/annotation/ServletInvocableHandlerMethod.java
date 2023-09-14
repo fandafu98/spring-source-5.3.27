@@ -113,17 +113,21 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 	 */
 	public void invokeAndHandle(ServletWebRequest webRequest, ModelAndViewContainer mavContainer,
 			Object... providedArgs) throws Exception {
-
+		// 执行调用父类的invokeForRequeset执行请求
 		Object returnValue = invokeForRequest(webRequest, mavContainer, providedArgs);
+		// 设置@ResponseStatus注解
 		setResponseStatus(webRequest);
-
+		// 设置ModelAndViewContainer为请求已处理，返回 和@ResponseStatus注解相关
+		// 处理返回值，判断返回值是否为空
 		if (returnValue == null) {
+			// request的NotModified为true，有@ResponseStatus，RequestHandled为true，三个条件有一个成立，则设置请求处理完成并返回
 			if (isRequestNotModified(webRequest) || getResponseStatus() != null || mavContainer.isRequestHandled()) {
 				disableContentCachingIfNecessary(webRequest);
 				mavContainer.setRequestHandled(true);
 				return;
 			}
 		}
+		// 返回值不为null，@ResponseStatus存在reason，这是请求处理完成并返回
 		else if (StringUtils.hasText(getResponseStatusReason())) {
 			mavContainer.setRequestHandled(true);
 			return;
