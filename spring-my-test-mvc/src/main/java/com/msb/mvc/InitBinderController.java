@@ -10,7 +10,6 @@ package com.msb.mvc;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -23,11 +22,11 @@ public class InitBinderController {
 
 
 	@RequestMapping("/param")
-	public String getFormatDate(Date date, Map<String, Object> map) {
-		System.out.println(date);
+	public String getFormatDate(Integer number, Map<String, Object> map) {
+		System.out.println(number);
 		map.put("name", "zhangsan");
 		map.put("age", 13);
-		map.put("date", date);
+		map.put("date", number);
 		return "map";
 	}
 }

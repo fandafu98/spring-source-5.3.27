@@ -1027,13 +1027,17 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	@Nullable
 	private ModelAndView getModelAndView(ModelAndViewContainer mavContainer,
 			ModelFactory modelFactory, NativeWebRequest webRequest) throws Exception {
-
+		// 更新model（设置sessionAttributes和给model设置BindingResult）
 		modelFactory.updateModel(webRequest, mavContainer);
+		// 情况一：如果mavContainer已处理，则返回"空"的ModelAndView对象
 		if (mavContainer.isRequestHandled()) {
 			return null;
 		}
+		// 情况二：如果mavContainer未处理，则基于'mavContainer'生成modelAndView对象
 		ModelMap model = mavContainer.getModel();
+		// 创建ModelAndView对象，并设置相关属性
 		ModelAndView mav = new ModelAndView(mavContainer.getViewName(), model, mavContainer.getStatus());
+		// 如果mavContainer里的view不是引用，也就是不是string类型，则设置到mv中
 		if (!mavContainer.isViewReference()) {
 			mav.setView((View) mavContainer.getView());
 		}
