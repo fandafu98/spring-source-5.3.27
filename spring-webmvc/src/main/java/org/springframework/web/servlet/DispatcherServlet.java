@@ -1126,6 +1126,7 @@ public class DispatcherServlet extends FrameworkServlet {
 				// making them available for @ExceptionHandler methods and other scenarios.
 				dispatchException = new NestedServletException("Handler dispatch failed", err);
 			}
+			// 处理返回结果，包括处理异常，渲染页面，触发Interceptor的afterCompletion
 			processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
 		}
 		catch (Exception ex) {
@@ -1171,13 +1172,17 @@ public class DispatcherServlet extends FrameworkServlet {
 			@Nullable HandlerExecutionChain mappedHandler, @Nullable ModelAndView mv,
 			@Nullable Exception exception) throws Exception {
 
+		// 标记是否为处理生成异常的ModelAndView对象
 		boolean errorView = false;
 
+		// 如果请求处理过程中有异常抛出则处理异常
 		if (exception != null) {
+			// 从ModelAndViewDefiningException中获取ModelAndView对象
 			if (exception instanceof ModelAndViewDefiningException) {
 				logger.debug("ModelAndViewDefiningException encountered", exception);
 				mv = ((ModelAndViewDefiningException) exception).getModelAndView();
 			}
+			// 处理异常，生成ModelAndView
 			else {
 				Object handler = (mappedHandler != null ? mappedHandler.getHandler() : null);
 				mv = processHandlerException(request, response, handler, exception);
@@ -1186,8 +1191,12 @@ public class DispatcherServlet extends FrameworkServlet {
 		}
 
 		// Did the handler return a view to render?
+		// 是否进行页面渲染
 		if (mv != null && !mv.wasCleared()) {
+			// 渲染页面
 			render(mv, request, response);
+			// 清理请求中的错误消息属性
+			// 因为上述的情况中，processHandlerException会通过WebUtils设置错误消息属性，所以需要进行清理
 			if (errorView) {
 				WebUtils.clearErrorRequestAttributes(request);
 			}
@@ -1365,19 +1374,26 @@ public class DispatcherServlet extends FrameworkServlet {
 			@Nullable Object handler, Exception ex) throws Exception {
 
 		// Success and error responses may use different content types
+		// 移除PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE属性
 		request.removeAttribute(HandlerMapping.PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);
 
 		// Check registered HandlerExceptionResolvers...
+		// 遍历handlerExceptionResolvers数组，解析异常，生成ModelAndView对象
 		ModelAndView exMv = null;
 		if (this.handlerExceptionResolvers != null) {
+			// 遍历HandlerExceptionResolver数组
 			for (HandlerExceptionResolver resolver : this.handlerExceptionResolvers) {
+				// 解析异常，生成ModelAndView对象
 				exMv = resolver.resolveException(request, response, handler, ex);
+				// 生成成功，结束循环
 				if (exMv != null) {
 					break;
 				}
 			}
 		}
+		// 情况一，生成了ModelAndView对象，进行返回
 		if (exMv != null) {
+			// ModelAndView对象为空，则返回null
 			if (exMv.isEmpty()) {
 				request.setAttribute(EXCEPTION_ATTRIBUTE, ex);
 				return null;
