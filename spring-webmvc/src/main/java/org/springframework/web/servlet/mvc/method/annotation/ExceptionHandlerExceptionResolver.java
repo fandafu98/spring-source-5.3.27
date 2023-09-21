@@ -434,7 +434,6 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 			exceptionHandlerMethod.invokeAndHandle(webRequest, mavContainer, arguments);
 		}
 		catch (Throwable invocationEx) {
-			// Any other than the original exception (or a cause) is unintended here,
 			// probably an accident (e.g. failed assertion or the like).
 			// 发生异常，则直接返回
 			if (!exceptions.contains(invocationEx) && logger.isWarnEnabled()) {
