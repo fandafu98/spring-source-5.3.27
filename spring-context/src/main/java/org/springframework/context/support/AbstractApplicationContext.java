@@ -570,7 +570,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.准备在此上下文中使用的 Bean 工厂
-			// 完成初始化bean工厂，给当前bean工厂设置一些属性值
+			// 初始化bean工厂，给当前bean工厂设置一些属性值
 			prepareBeanFactory(beanFactory);
 
 			try {
@@ -805,7 +805,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Instantiate and invoke all registered BeanFactoryPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before singleton instantiation.
-	 * 实例化并调用所有注册的 BeanFactoryPostProcessor bean，
+	 * 实例化并执行调用所有注册的 BeanFactoryPostProcessor bean，
 	 * 如果给定，则遵守显式顺序。
 	 * <p>必须在单例对象实例化之前调用，如果实例化之后修改beanDefinition就没有意义了
 	 * 多例对象在每次用的时候创建，所以不在这里进行修改
