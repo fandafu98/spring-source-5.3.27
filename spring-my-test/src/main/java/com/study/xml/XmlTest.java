@@ -14,7 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class XmlTest {
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		MyClassPathXmlApplicationContext applicationContext = new MyClassPathXmlApplicationContext("spring-config.xml");
 		Person bean = applicationContext.getBean(Person.class);
 		User user = (User) applicationContext.getBean("msb");
@@ -23,6 +23,11 @@ public class XmlTest {
 		Customer customerBean = applicationContext.getBean(Customer.class);
 		System.out.println(customerBean.getAddress());
 
+	}*/
+
+
+	public static void main(String[] args) {
+		MyClassPathXmlApplicationContext applicationContext = new MyClassPathXmlApplicationContext("load-bean-definitions.xml");
 	}
 
 
