@@ -28,6 +28,11 @@ public class XmlTest {
 
 	public static void main(String[] args) {
 		MyClassPathXmlApplicationContext applicationContext = new MyClassPathXmlApplicationContext("load-bean-definitions.xml");
+		Person person1 = applicationContext.getBean(Person.class);
+		Person person2 = applicationContext.getBean(Person.class);
+		System.out.println(person1.hashCode());
+		System.out.println(person2.hashCode());
+
 	}
 
 

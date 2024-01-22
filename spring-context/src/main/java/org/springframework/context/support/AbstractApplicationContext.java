@@ -812,6 +812,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 *
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+		// 获取到当前应用程序上下文的beanFactoryPostProcessor变量的值，并且实例化调用执行所有已经注册的beanFactoryPostProcessor
+		// 默认情况下，通过getBeanFactoryPostProcessors()来获取已经注册的BFPP，但是默认是空的，那么问题来了，如果你想拓展，怎么进行拓展工作？
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime

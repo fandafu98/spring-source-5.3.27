@@ -1,5 +1,6 @@
-package com.study.xml;
+package com.have.createBean;
 
+import com.study.xml.MyBeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -12,9 +13,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author: 郑延康
  * @date: 2023-05-21 13:46
  */
-public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationContext {
+public class CreateBeanClassPathXmlApplicationContext extends ClassPathXmlApplicationContext {
 
-	public MyClassPathXmlApplicationContext(String configPath) {
+	public CreateBeanClassPathXmlApplicationContext(String configPath) {
 		super(configPath);
 	}
 
@@ -31,8 +32,4 @@ public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationCon
 		System.out.println("My postProcessBeanFactory");
 	}
 
-	@Override
-	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
-		super.addBeanFactoryPostProcessor(new MyBeanFactoryPostProcessor());
-	}
 }
