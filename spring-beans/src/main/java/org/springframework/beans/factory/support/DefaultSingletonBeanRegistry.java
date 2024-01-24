@@ -272,7 +272,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				}
 				try {
 					// 从单例工厂中获取对象
-					singletonObject = singletonFactory.getObject();
+					singletonObject = singletonFactory.getObject(); // 这里调用的就是外面函数式接口的createBean方法
 					// 生成了新的单例对象的标记为true，表示生成了新的单例对象
 					newSingleton = true;
 				}
