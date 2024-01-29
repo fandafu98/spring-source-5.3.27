@@ -577,6 +577,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Allow post-processors to modify the merged bean definition.
 		// 允许beanPostProcessor去修改合并的beanDefinition
+		// @PostConstruct @PreDestroy 就在这里处理的，bean创建流程四的课程里讲的
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {
@@ -616,17 +617,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		 *
 		 *  二级缓存 半成品缓存    	key:beanName，value:Object
 		 *  一级缓存 成品缓存      	key:beanName，value:Object
-		 *  三级缓存 而代理对象的Map 	key:beanName，value:lambda表达式
+		 *  三级缓存 代理对象的Map 	key:beanName，value:lambda表达式
 		 *
 		 * 总结：看到现在感觉有点问题，那么换一个思路去解决
 		 * 我们规定生成代理对象的操作一定在赋值操作完成之后
 		 *
 		 * 5.很多同学在刚刚的步骤中说到了初始化，初始化包含了哪些环节？
-		 * a:填充属性
-		 * b:执行aware接口所对应的方法
-		 * c:执行beanPostProcessor中的before方法
-		 * d:执行init-method方法
-		 * e:执行beanPostProcessor中的after方法
+		 *  a:填充属性
+		 *  b:执行aware接口所对应的方法
+		 *  c:执行beanPostProcessor中的before方法
+		 *  d:执行init-method方法
+		 *  e:执行beanPostProcessor中的after方法
 		 * 上述步骤执行完成之后是为了获取到一个完整的成品对象，但是在初始化前我们能确定哪一个对象需要生成代理对象吗？
 		 * 不能确定，而且我们三级缓存只是一个回调机制，所以能否把所有的bean所需的创建代理对象的lambda表达式都放到三级缓存中
 		 * 可以将所有bean对象需要的创建代理对象的lambda表达式放到三级缓存中，后续如果我需要调用，直接从三级缓存中调用执行即可

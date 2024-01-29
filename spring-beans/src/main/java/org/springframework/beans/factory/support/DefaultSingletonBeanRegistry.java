@@ -151,11 +151,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	protected void addSingleton(String beanName, Object singletonObject) {
 		synchronized (this.singletonObjects) {
-			// 将映射关系添加到单例对象的高速缓存中
+			// 将映射关系添加到单例对象的一级缓存中
 			this.singletonObjects.put(beanName, singletonObject);
-			// 移除beanName在单例工厂缓存中的数据
+			// 移除beanName在单例工厂三级缓存中的数据
 			this.singletonFactories.remove(beanName);
-			// 移除beanName在早期单例对象的高速缓存的数据
+			// 移除beanName在早期单例对象的二级缓存的数据
 			this.earlySingletonObjects.remove(beanName);
 			// 将beanName添加到注册的单例集中
 			this.registeredSingletons.add(beanName);
@@ -176,7 +176,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		Assert.notNull(singletonFactory, "Singleton factory must not be null");
 		synchronized (this.singletonObjects) {
 			if (!this.singletonObjects.containsKey(beanName)) {
-				// 放到单例工厂里
+				// 放到单例工厂里，也就是三级缓存
 				this.singletonFactories.put(beanName, singletonFactory);
 				// 删除早期单例
 				this.earlySingletonObjects.remove(beanName);
