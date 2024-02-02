@@ -13,7 +13,8 @@ public class CircularMainTest {
 	// 而BeanFactoryPostProcessor直接针对BeanFactory
 
 	public static void main(String[] args) {
-		CircularClassPathXmlApplicationContext applicationContext = new CircularClassPathXmlApplicationContext("create-bean/xunhuan.xml");
+		CircularClassPathXmlApplicationContext applicationContext
+				= new CircularClassPathXmlApplicationContext("create-bean/circular.xml");
 	}
 
 

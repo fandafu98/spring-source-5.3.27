@@ -1,7 +1,5 @@
 package com.have.createBean;
 
-import com.study.xml.Person;
-
 /**
  * zhuyanyoushu.com
  * Copyright (C) 2021-2023 All Rights Reserved.
@@ -15,7 +13,7 @@ public class CreateBeanMainTest {
 	// 而BeanFactoryPostProcessor直接针对BeanFactory
 
 	public static void main(String[] args) {
-		CreateBeanClassPathXmlApplicationContext applicationContext = new CreateBeanClassPathXmlApplicationContext("create-bean/xunhuan.xml");
+		CreateBeanClassPathXmlApplicationContext applicationContext = new CreateBeanClassPathXmlApplicationContext("create-bean/create-bean.xml");
 	}
 
 

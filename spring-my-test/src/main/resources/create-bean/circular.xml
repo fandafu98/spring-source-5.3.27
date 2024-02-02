@@ -6,11 +6,11 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="a1" class="com.have.domain.A">
+	<bean id="a" class="com.have.domain.A">
 
 	</bean>
 
-	<bean id="a2" class="com.have.domain.B">
+	<bean id="b" class="com.have.domain.B">
 
 	</bean>
 
