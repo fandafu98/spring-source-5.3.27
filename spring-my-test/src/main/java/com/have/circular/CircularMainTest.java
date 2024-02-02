@@ -1,6 +1,4 @@
-package com.have.createBean;
-
-import com.study.xml.Person;
+package com.have.circular;
 
 /**
  * zhuyanyoushu.com
@@ -9,13 +7,13 @@ import com.study.xml.Person;
  * @author: 郑延康
  * @date: 2023-05-21 11:38
  */
-public class CreateBeanMainTest {
+public class CircularMainTest {
 
 	// 注意：BeanDefinitionRegistry直接针对BeanDefinition
 	// 而BeanFactoryPostProcessor直接针对BeanFactory
 
 	public static void main(String[] args) {
-		CreateBeanClassPathXmlApplicationContext applicationContext = new CreateBeanClassPathXmlApplicationContext("create-bean/xunhuan.xml");
+		CircularClassPathXmlApplicationContext applicationContext = new CircularClassPathXmlApplicationContext("create-bean/xunhuan.xml");
 	}
 
 

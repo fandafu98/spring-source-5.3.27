@@ -1562,7 +1562,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (pvs != null) {
-			// 应用给定的属性值，解决任何在这个bean工厂运行时其他bean的引用，必须使用浅拷贝，所以我们不会永久的修改这个属性
+			// 应用给定的属性值，解决任何在这个bean工厂运行时其他bean的引用，必须使用深拷贝，所以我们不会永久的修改这个属性
 			applyPropertyValues(beanName, mbd, bw, pvs);
 		}
 	}
@@ -1918,6 +1918,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #applyBeanPostProcessorsBeforeInitialization
 	 * @see #invokeInitMethods
 	 * @see #applyBeanPostProcessorsAfterInitialization
+	 */
+	/**
+	 * 调用顺序
+	 * 1.执行调用Aware接口对应的方法
+	 * 2.执行before的初始化方法
+	 * 3.调用执行init-method
+	 *   3.1 实现了InitializingBean接口之后调用afterPropertiesSet方法
+	 *   3.2 调用执行用户自定义初始化方法init-method
+	 * 4.执行after的初始化方法
 	 */
 	protected Object initializeBean(String beanName, Object bean, @Nullable RootBeanDefinition mbd) {
 		if (System.getSecurityManager() != null) {
