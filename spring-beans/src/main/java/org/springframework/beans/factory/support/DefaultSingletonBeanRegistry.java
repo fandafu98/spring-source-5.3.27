@@ -178,7 +178,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			if (!this.singletonObjects.containsKey(beanName)) {
 				// 放到单例工厂里，也就是三级缓存
 				this.singletonFactories.put(beanName, singletonFactory);
-				// 删除早期单例
+				// 删除二级缓存中的单例
 				this.earlySingletonObjects.remove(beanName);
 				// 添加到已注册
 				this.registeredSingletons.add(beanName);
@@ -261,7 +261,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				if (logger.isDebugEnabled()) {
 					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
 				}
-				// 记录当前对象的加载状态
+				// 记录当前对象的加载状态，往singletonsCurrentlyInCreation加入当前对象，表示当前对象正在创建中
 				beforeSingletonCreation(beanName);
 				// 表示生成了新的单例对象的标记，默认为false，表示没有生成新的单例对象
 				boolean newSingleton = false;
@@ -271,7 +271,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					this.suppressedExceptions = new LinkedHashSet<>();
 				}
 				try {
-					// 从单例工厂中获取对象
+					// 重点，调用传进来的lambda表达式，从单例工厂中获取对象
 					singletonObject = singletonFactory.getObject(); // 这里调用的就是外面函数式接口的createBean方法
 					// 生成了新的单例对象的标记为true，表示生成了新的单例对象
 					newSingleton = true;
