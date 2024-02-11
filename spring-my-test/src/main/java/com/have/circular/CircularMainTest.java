@@ -14,7 +14,7 @@ public class CircularMainTest {
 
 	public static void main(String[] args) {
 		CircularClassPathXmlApplicationContext applicationContext
-				= new CircularClassPathXmlApplicationContext("create-bean/circular.xml");
+				= new CircularClassPathXmlApplicationContext("circular/circular.xml");
 	}
 
 

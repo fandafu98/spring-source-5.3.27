@@ -731,19 +731,30 @@ class ConstructorResolver {
 	private int resolveConstructorArguments(String beanName, RootBeanDefinition mbd, BeanWrapper bw,
 			ConstructorArgumentValues cargs, ConstructorArgumentValues resolvedValues) {
 
+		// 获取Bean工厂的类型转换器
 		TypeConverter customConverter = this.beanFactory.getCustomTypeConverter();
+		// 定义一个typeConvert对象，如果有customConverter，就引用customConverter；否则引用bw
 		TypeConverter converter = (customConverter != null ? customConverter : bw);
+		// BeanDefinitionValueResolver：在bean工厂实现中使用Helper类，它将beanDefinition对象中包含的值解析为应用于目标bean实例的实际值
+		// 新建一个BeanDefinitionValueResolver对象
 		BeanDefinitionValueResolver valueResolver =
 				new BeanDefinitionValueResolver(this.beanFactory, beanName, mbd, converter);
 
+		// 返回此实例中保存的参数值的数量，同时计算索引参数值和泛型参数值
+		// 获取cargs的参数值数量和泛型参数值数量作为最小（索引参数值数+泛型参数值数）
 		int minNrOfArgs = cargs.getArgumentCount();
 
+		// ConstructorArgumentValues.ValueHolder：构造函数参数值的Holder，带有可选的type属性，指示实际构造函数参数的目标类型
+		// 遍历cargs所封装的索引参数值的Map，元素为entry(key=参数值的参数索引，value=ConstructorArgumentValues.ValueHolder对象)
 		for (Map.Entry<Integer, ConstructorArgumentValues.ValueHolder> entry : cargs.getIndexedArgumentValues().entrySet()) {
+			// 获取参数值的参数索引
 			int index = entry.getKey();
+			// 如果index小于0
 			if (index < 0) {
 				throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 						"Invalid constructor argument index: " + index);
 			}
+			// 如果index大于最小参数值数量
 			if (index + 1 > minNrOfArgs) {
 				minNrOfArgs = index + 1;
 			}
@@ -752,11 +763,15 @@ class ConstructorResolver {
 				resolvedValues.addIndexedArgumentValue(index, valueHolder);
 			}
 			else {
+				// 使用valueResolver解析出valueHolder实例的构造函数参数值所封装的对象
 				Object resolvedValue =
 						valueResolver.resolveValueIfNecessary("constructor argument", valueHolder.getValue());
+				// 使用valueHolder所封装的type，name属性以及解析出来的resovledValue构造出一个ConstructorArgumentValues.ValueHolder对象
 				ConstructorArgumentValues.ValueHolder resolvedValueHolder =
 						new ConstructorArgumentValues.ValueHolder(resolvedValue, valueHolder.getType(), valueHolder.getName());
+				// 将valueHolder作为resolvedValueHolder的配置源对象设置到resolvedValueHolder中
 				resolvedValueHolder.setSource(valueHolder);
+				// 将index和valueHolder添加到resolvedValues所封装的索引参数值的Map种
 				resolvedValues.addIndexedArgumentValue(index, resolvedValueHolder);
 			}
 		}
