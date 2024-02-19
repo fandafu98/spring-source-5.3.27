@@ -456,6 +456,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		proxyFactory.copyFrom(this);
 
 
+		// 决定对于给定的bean是否应该使用targetClass而不是他的接口代理，检查proxyTargetClass设置以及preserverTargetClass属性
 		if (proxyFactory.isProxyTargetClass()) {
 			// Explicit handling of JDK proxy targets and lambdas (for introduction advice scenarios)
 			if (Proxy.isProxyClass(beanClass) || ClassUtils.isLambdaClass(beanClass)) {
@@ -467,10 +468,12 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		}
 		else {
 			// No proxyTargetClass flag enforced, let's apply our default checks...
+			// 判断是使用jdk动态代理还是cglib代理
 			if (shouldProxyTargetClass(beanClass, beanName)) {
 				proxyFactory.setProxyTargetClass(true);
 			}
 			else {
+				// 添加代理接口
 				evaluateProxyInterfaces(beanClass, proxyFactory);
 			}
 		}
