@@ -19,30 +19,30 @@ public class LogUtil {
 	}
 
 
-	public void start(JoinPoint joinPoint) {
+	public void before(JoinPoint joinPoint) {
 		Signature signature = joinPoint.getSignature();
 		Object[] args = joinPoint.getArgs();
-		System.out.println("aop切面LogUtil的start方法："+signature.getName() + Arrays.asList(args));
+		System.out.println("aop切面LogUtil的before方法：" + signature.getName() + Arrays.asList(args));
 
 	}
 
 
-	public void stop(JoinPoint joinPoint, Object result) {
+	public void afterReturning(JoinPoint joinPoint, Object result) {
 		Signature signature = joinPoint.getSignature();
-		System.out.println("aop切面LogUtil的stop方法："+signature.getName() + result);
+		System.out.println("aop切面LogUtil的afterReturning方法：" + signature.getName() + result);
 
 	}
 
-	private void logException(JoinPoint joinPoint, Exception e) {
+	private void afterThrowing(JoinPoint joinPoint, Exception e) {
 		Signature signature = joinPoint.getSignature();
-		System.out.println("aop切面LogUtil的logException方法："+signature.getName() + e.getMessage());
+		System.out.println("aop切面LogUtil的afterThrowing方法：" + signature.getName() + e.getMessage());
 
 	}
 
 
-	public void logFinally(JoinPoint joinPoint) {
+	public void after(JoinPoint joinPoint) {
 		Signature signature = joinPoint.getSignature();
-		System.out.println("aop切面LogUtil的logFinally方法："+signature.getName());
+		System.out.println("aop切面LogUtil的after方法：" + signature.getName());
 	}
 
 
@@ -51,12 +51,13 @@ public class LogUtil {
 		Object[] args = proceedingJoinPoint.getArgs();
 		Object result = null;
 		try {
-			System.out.println("aop切面LogUtil的around方法："+signature.getName() + Arrays.asList(args));
+			System.out.println("aop切面LogUtil的around方法：" + signature.getName() + Arrays.asList(args));
 			result = proceedingJoinPoint.proceed(args);
 		} catch (Throwable e) {
-			System.out.println("aop切面LogUtil的around异常方法："+signature.getName() + e.getMessage());
+			System.out.println("aop切面LogUtil的around异常方法：" + signature.getName() + e.getMessage());
 			throw e;
 		}
+		System.out.println("aop切面LogUtil的around返回结果：" + result);
 		return result;
 	}
 
