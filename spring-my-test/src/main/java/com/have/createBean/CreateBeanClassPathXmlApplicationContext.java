@@ -21,15 +21,11 @@ public class CreateBeanClassPathXmlApplicationContext extends ClassPathXmlApplic
 
 	@Override
 	protected void initPropertySources() {
-		System.out.println("扩展initPropertySources...");
 		// getEnvironment().setRequiredProperties("跑车浪漫旅");
 	}
 
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
-		BeanDefinition person = beanFactory.getBeanDefinition("person");
-		// person.setScope("prototype");
-		System.out.println("My postProcessBeanFactory");
 	}
 
 }
