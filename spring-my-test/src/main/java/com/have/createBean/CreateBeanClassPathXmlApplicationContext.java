@@ -21,7 +21,6 @@ public class CreateBeanClassPathXmlApplicationContext extends ClassPathXmlApplic
 
 	@Override
 	protected void initPropertySources() {
-		// getEnvironment().setRequiredProperties("跑车浪漫旅");
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class ComputerBeanFactoryPostProcessor implements BeanFactoryPostProcesso
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		BeanDefinition computerBeanDefinition = beanFactory.getBeanDefinition("computer");
 		computerBeanDefinition.setScope("singleton");
-		// 此时肯定为false
+		// 此时为true，因为只要判断了是否在beanDefinitionMap中也算为true
 		boolean isContains = beanFactory.containsBean("computer");
 		System.out.println("在BFPP中是否包含computer的bean："+isContains);
 
