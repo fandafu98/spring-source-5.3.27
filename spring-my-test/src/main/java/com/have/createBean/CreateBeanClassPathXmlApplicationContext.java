@@ -1,13 +1,10 @@
 package com.have.createBean;
 
-import com.study.xml.MyBeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * zhuyanyoushu.com
+ * zhuyanyoushu.co
  * Copyright (C) 2021-2023 All Rights Reserved.
  *
  * @author: 郑延康

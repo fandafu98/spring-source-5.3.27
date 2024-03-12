@@ -30,10 +30,10 @@ public class ComputerBeanFactoryPostProcessor implements BeanFactoryPostProcesso
 		System.out.println("在BFPP中是否包含computer的bean："+isContains);
 
 		// 这时候去getBean，肯定会在统一的实例化方法之前生成对象的，
-		Computer bean = beanFactory.getBean(Computer.class);
+		/*Computer bean = beanFactory.getBean(Computer.class);
 		if (null==bean){
 			System.out.println("在BeanFactoryPostProcessor中获取bean,拿到的是个null值");
-		}
+		}*/
 
 	}
 
