@@ -1880,11 +1880,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					originalValue = new DependencyDescriptor(new MethodParameter(writeMethod, 0), true);
 				}
 
-				// 交由valueResolver根据pv解析出originalValue所封装的对象
+				// 重要！！！交由valueResolver根据pv解析出originalValue所封装的对象
 				Object resolvedValue = valueResolver.resolveValueIfNecessary(pv, originalValue);
 				// 默认转换后的值是刚解析出来的值
 				Object convertedValue = resolvedValue;
-				// 可转换标记: propertyName是否bw中的可写属性 && prepertyName不是表示索引属性或嵌套属性（如果propertyName中有'.'||'['就认为是索引属性或嵌套属性）
+				// 可转换标记: propertyName是否bw中的可写属性 && propertyName不是表示索引属性或嵌套属性（如果propertyName中有'.'||'['就认为是索引属性或嵌套属性）
 				boolean convertible = bw.isWritableProperty(propertyName) &&
 						!PropertyAccessorUtils.isNestedOrIndexedProperty(propertyName);
 				// 如果可转换

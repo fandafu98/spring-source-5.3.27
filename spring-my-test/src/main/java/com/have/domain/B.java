@@ -18,10 +18,17 @@ import org.springframework.context.annotation.Lazy;
  * @author zhengyankang
  * @version B.java, v 0.1 2024-02-01 14:24
  */
-@Data
+
 public class B {
 
 	@Autowired
 	private A a;
 
+	public A getA() {
+		return a;
+	}
+
+	public void setA(A a) {
+		this.a = a;
+	}
 }

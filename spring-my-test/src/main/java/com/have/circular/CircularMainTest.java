@@ -1,5 +1,7 @@
 package com.have.circular;
 
+import com.have.domain.A;
+
 /**
  * zhuyanyoushu.com
  * Copyright (C) 2021-2023 All Rights Reserved.
@@ -15,6 +17,8 @@ public class CircularMainTest {
 	public static void main(String[] args) {
 		CircularClassPathXmlApplicationContext applicationContext
 				= new CircularClassPathXmlApplicationContext("circular/circular.xml");
+		A bean = applicationContext.getBean(A.class);
+		System.out.println(bean.getB());
 	}
 
 

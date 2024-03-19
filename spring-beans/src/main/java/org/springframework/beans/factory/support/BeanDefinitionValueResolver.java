@@ -115,7 +115,7 @@ class BeanDefinitionValueResolver {
 		if (value instanceof RuntimeBeanReference) {
 			// 将value强转成RuntimeBeanReference对象
 			RuntimeBeanReference ref = (RuntimeBeanReference) value;
-			// 解析出对应ref所封装的Bean元信息(即Bean名,Bean类型)的Bean对象:
+			// 重要，就是从这里创建属性对象的！！！解析出对应ref所封装的Bean元信息(即Bean名,Bean类型)的Bean对象:
 			return resolveReference(argName, ref);
 		}
 		//RuntimeBeanNameReference对应于<idref bean="bea" />.

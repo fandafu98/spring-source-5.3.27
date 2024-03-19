@@ -17,9 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author zhengyankang
  * @version A.java, v 0.1 2024-02-01 14:24
  */
-@Data
 public class A {
 
 	@Autowired
 	private B b;
+
+	public B getB() {
+		return b;
+	}
+
+	public void setB(B b) {
+		this.b = b;
+	}
 }
