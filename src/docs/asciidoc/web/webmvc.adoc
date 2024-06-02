@@ -50,7 +50,7 @@ the `DispatcherServlet`, which is auto-detected by the Servlet container
 
 			// Load Spring web application configuration
 			AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-			context.register(com.study.annotation.AppConfig.class);
+			context.register(com.oldcode.annotation.AppConfig.class);
 
 			// Create and register the DispatcherServlet
 			DispatcherServlet servlet = new DispatcherServlet(context);
@@ -69,7 +69,7 @@ the `DispatcherServlet`, which is auto-detected by the Servlet container
 
 			// Load Spring web application configuration
 			val context = AnnotationConfigWebApplicationContext()
-			context.register(com.study.annotation.AppConfig::class.java)
+			context.register(com.oldcode.annotation.AppConfig::class.java)
 
 			// Create and register the DispatcherServlet
 			val servlet = DispatcherServlet(context)

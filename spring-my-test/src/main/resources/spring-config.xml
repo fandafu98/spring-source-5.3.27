@@ -13,12 +13,12 @@
 
 	<msb:user id="msb" username="马士兵" email="mashibing@163.com" password="123"/>
 
-	<bean id="person" class="com.study.xml.Person" >
+	<bean id="person" class="com.oldcode.xml.Person" >
 		<property name="id" value="1"/>
 		<property name="name" value="张三"/>
 	</bean>
 
-	<bean id="customer" class="com.study.myEditor.Customer">
+	<bean id="customer" class="com.oldcode.myEditor.Customer">
 		<property name="name" value="张三"/>
 		<property name="address" value="浙江省_杭州市_余杭区"/>
 	</bean>
@@ -26,18 +26,18 @@
 	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="propertyEditorRegistrars">
 			<array>
-				<bean class="com.study.myEditor.AddressPropertyEditorRegistrar"/>
+				<bean class="com.oldcode.myEditor.AddressPropertyEditorRegistrar"/>
 			</array>
 		</property>
 	</bean>
 
-	<bean class="com.study.xml.MyBeanFactoryPostProcessor">
+	<bean class="com.oldcode.xml.MyBeanFactoryPostProcessor">
 
 	</bean>
 
-	<bean class="com.study.bdfpp.MyBeanDefinitionRegistryPostProcessor"/>
+	<bean class="com.oldcode.bdfpp.MyBeanDefinitionRegistryPostProcessor"/>
 
-	<context:component-scan base-package="com.study"/>
+	<context:component-scan base-package="com.oldcode"/>
 
 
 </beans>

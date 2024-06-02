@@ -6,20 +6,20 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="computer" class="com.have.createBean.domain.Computer">
+	<bean id="computer" class="com.newcode.createBean.domain.Computer">
 		<property name="cpuModel" value="i5-12600KF"/>
 		<property name="gpuModel" value="RTX4060"/>
 	</bean>
 
-	<bean id="companyBoss" class="com.have.createBean.domain.CompanyBoss">
+	<bean id="companyBoss" class="com.newcode.createBean.domain.CompanyBoss">
 		<property name="bossName" value="马化腾"/>
 	</bean>
 
-	<bean id="companyBossBDRPP" class="com.have.createBean.bfpp.CompanyBossBeanDefinitionRegistryPostProcessor">
+	<bean id="companyBossBDRPP" class="com.newcode.createBean.bfpp.CompanyBossBeanDefinitionRegistryPostProcessor">
 
 	</bean>
 
-	<bean id="computerBFPP" class="com.have.createBean.bfpp.ComputerBeanFactoryPostProcessor">
+	<bean id="computerBFPP" class="com.newcode.createBean.bfpp.ComputerBeanFactoryPostProcessor">
 
 	</bean>
 

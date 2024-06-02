@@ -30,16 +30,16 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
-	<bean id="bookService" class="com.have.tx.service.BookService">
+	<bean id="bookService" class="com.newcode.tx.service.BookService">
 		<property name="bookDao" ref="bookDao"></property>
 	</bean>
 
-	<bean id="bookDao" class="com.have.tx.dao.BookDao">
+	<bean id="bookDao" class="com.newcode.tx.dao.BookDao">
 		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
 	</bean>
 
 	<aop:config>
-		<aop:pointcut id="txPoint" expression="execution(* com.have.tx.*.*.*(..))"/>
+		<aop:pointcut id="txPoint" expression="execution(* com.newcode.tx.*.*.*(..))"/>
 		<aop:advisor advice-ref="myAdvice" pointcut-ref="txPoint"></aop:advisor>
 	</aop:config>
 

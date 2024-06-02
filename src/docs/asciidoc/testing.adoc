@@ -674,7 +674,7 @@ within a test class hierarchy):
 ----
 	@WebAppConfiguration
 	@ContextHierarchy({
-		@ContextConfiguration(classes = com.study.annotation.AppConfig.class),
+		@ContextConfiguration(classes = com.oldcode.annotation.AppConfig.class),
 		@ContextConfiguration(classes = WebConfig.class)
 	})
 	class WebIntegrationTests {
@@ -686,7 +686,7 @@ within a test class hierarchy):
 ----
 	@WebAppConfiguration
 	@ContextHierarchy(
-			ContextConfiguration(classes = [com.study.annotation.AppConfig::class]),
+			ContextConfiguration(classes = [com.oldcode.annotation.AppConfig::class]),
 			ContextConfiguration(classes = [WebConfig::class]))
 	class WebIntegrationTests {
 		// class body...
@@ -3056,9 +3056,9 @@ The following example shows how to specify Groovy configuration files:
 .Java
 ----
 	@ExtendWith(SpringExtension.class)
-	// ApplicationContext will be loaded from "/com.study.annotation.AppConfig.groovy" and
+	// ApplicationContext will be loaded from "/com.oldcode.annotation.AppConfig.groovy" and
 	// "/TestConfig.groovy" in the root of the classpath
-	@ContextConfiguration({"/com.study.annotation.AppConfig.groovy", "/TestConfig.Groovy"}) <1>
+	@ContextConfiguration({"/com.oldcode.annotation.AppConfig.groovy", "/TestConfig.Groovy"}) <1>
 	class MyTest {
 		// class body...
 	}
@@ -3068,9 +3068,9 @@ The following example shows how to specify Groovy configuration files:
 .Kotlin
 ----
 	@ExtendWith(SpringExtension::class)
-	// ApplicationContext will be loaded from "/com.study.annotation.AppConfig.groovy" and
+	// ApplicationContext will be loaded from "/com.oldcode.annotation.AppConfig.groovy" and
 	// "/TestConfig.groovy" in the root of the classpath
-	@ContextConfiguration("/com.study.annotation.AppConfig.groovy", "/TestConfig.Groovy") // <1>
+	@ContextConfiguration("/com.oldcode.annotation.AppConfig.groovy", "/TestConfig.Groovy") // <1>
 	class MyTest {
 		// class body...
 	}
@@ -3160,8 +3160,8 @@ that contains references to component classes. The following example shows how t
 .Java
 ----
 	@ExtendWith(SpringExtension.class)
-	// ApplicationContext will be loaded from com.study.annotation.AppConfig and TestConfig
-	@ContextConfiguration(classes = {com.study.annotation.AppConfig.class, TestConfig.class}) // <1>
+	// ApplicationContext will be loaded from com.oldcode.annotation.AppConfig and TestConfig
+	@ContextConfiguration(classes = {com.oldcode.annotation.AppConfig.class, TestConfig.class}) // <1>
 	class MyTest {
 		// class body...
 	}
@@ -3172,8 +3172,8 @@ that contains references to component classes. The following example shows how t
 .Kotlin
 ----
 	@ExtendWith(SpringExtension::class)
-	// ApplicationContext will be loaded from com.study.annotation.AppConfig and TestConfig
-	@ContextConfiguration(classes = [com.study.annotation.AppConfig::class, TestConfig::class]) // <1>
+	// ApplicationContext will be loaded from com.oldcode.annotation.AppConfig and TestConfig
+	@ContextConfiguration(classes = [com.oldcode.annotation.AppConfig::class, TestConfig::class]) // <1>
 	class MyTest {
 		// class body...
 	}

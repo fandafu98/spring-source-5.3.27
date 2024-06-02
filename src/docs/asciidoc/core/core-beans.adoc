@@ -6030,14 +6030,14 @@ With the following configuration:
 ----
     @Configuration
     @PropertySource("classpath:application.properties")
-    public class com.study.annotation.AppConfig { }
+    public class com.oldcode.annotation.AppConfig { }
 ----
 [source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
 .Kotlin
 ----
 	@Configuration
 	@PropertySource("classpath:application.properties")
-	class com.study.annotation.AppConfig
+	class com.oldcode.annotation.AppConfig
 ----
 
 And the following `application.properties` file:
@@ -6059,7 +6059,7 @@ example shows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
@@ -6071,7 +6071,7 @@ example shows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun propertyPlaceholderConfigurer() = PropertySourcesPlaceholderConfigurer()
@@ -6124,7 +6124,7 @@ provide conversion support for your own custom type, you can provide your own
 .Java
 ----
     @Configuration
-    public class com.study.annotation.AppConfig {
+    public class com.oldcode.annotation.AppConfig {
 
         @Bean
         public ConversionService conversionService() {
@@ -6138,7 +6138,7 @@ provide conversion support for your own custom type, you can provide your own
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun conversionService(): ConversionService {
@@ -6492,7 +6492,7 @@ comma- or semicolon- or space-separated list that includes the parent package of
 ----
 	@Configuration
 	@ComponentScan(basePackages = "org.example")
-	public class com.study.annotation.AppConfig  {
+	public class com.oldcode.annotation.AppConfig  {
 		// ...
 	}
 ----
@@ -6501,7 +6501,7 @@ comma- or semicolon- or space-separated list that includes the parent package of
 ----
 	@Configuration
 	@ComponentScan(basePackages = ["org.example"])
-	class com.study.annotation.AppConfig  {
+	class com.oldcode.annotation.AppConfig  {
 		// ...
 	}
 ----
@@ -6606,7 +6606,7 @@ and using "`stub`" repositories instead:
 	@ComponentScan(basePackages = "org.example",
 			includeFilters = @Filter(type = FilterType.REGEX, pattern = ".*Stub.*Repository"),
 			excludeFilters = @Filter(Repository.class))
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 		// ...
 	}
 ----
@@ -6617,7 +6617,7 @@ and using "`stub`" repositories instead:
 	@ComponentScan(basePackages = ["org.example"],
 			includeFilters = [Filter(type = FilterType.REGEX, pattern = [".*Stub.*Repository"])],
 			excludeFilters = [Filter(Repository::class)])
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 		// ...
 	}
 ----
@@ -6926,7 +6926,7 @@ fully qualified class name for the generated bean name. As of Spring Framework 5
 ----
 	@Configuration
 	@ComponentScan(basePackages = "org.example", nameGenerator = MyNameGenerator.class)
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 		// ...
 	}
 ----
@@ -6935,7 +6935,7 @@ fully qualified class name for the generated bean name. As of Spring Framework 5
 ----
 	@Configuration
 	@ComponentScan(basePackages = ["org.example"], nameGenerator = MyNameGenerator::class)
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 		// ...
 	}
 ----
@@ -7004,7 +7004,7 @@ an annotation and a bean definition shows:
 ----
 	@Configuration
 	@ComponentScan(basePackages = "org.example", scopeResolver = MyScopeResolver.class)
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 		// ...
 	}
 ----
@@ -7013,7 +7013,7 @@ an annotation and a bean definition shows:
 ----
 	@Configuration
 	@ComponentScan(basePackages = ["org.example"], scopeResolver = MyScopeResolver::class)
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 		// ...
 	}
 ----
@@ -7036,7 +7036,7 @@ the following configuration results in standard JDK dynamic proxies:
 ----
 	@Configuration
 	@ComponentScan(basePackages = "org.example", scopedProxy = ScopedProxyMode.INTERFACES)
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 		// ...
 	}
 ----
@@ -7045,7 +7045,7 @@ the following configuration results in standard JDK dynamic proxies:
 ----
 	@Configuration
 	@ComponentScan(basePackages = ["org.example"], scopedProxy = ScopedProxyMode.INTERFACES)
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 		// ...
 	}
 ----
@@ -7479,7 +7479,7 @@ exact same way as when you use Spring annotations, as the following example show
 ----
 	@Configuration
 	@ComponentScan(basePackages = "org.example")
-	public class com.study.annotation.AppConfig  {
+	public class com.oldcode.annotation.AppConfig  {
 		// ...
 	}
 ----
@@ -7488,7 +7488,7 @@ exact same way as when you use Spring annotations, as the following example show
 ----
 	@Configuration
 	@ComponentScan(basePackages = ["org.example"])
-	class com.study.annotation.AppConfig  {
+	class com.oldcode.annotation.AppConfig  {
 		// ...
 	}
 ----
@@ -7593,7 +7593,7 @@ The simplest possible `@Configuration` class reads as follows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public MyServiceImpl myService() {
@@ -7605,7 +7605,7 @@ The simplest possible `@Configuration` class reads as follows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun myService(): MyServiceImpl {
@@ -7614,7 +7614,7 @@ The simplest possible `@Configuration` class reads as follows:
 	}
 ----
 
-The preceding `com.study.annotation.AppConfig` class is equivalent to the following Spring `<beans/>` XML:
+The preceding `com.oldcode.annotation.AppConfig` class is equivalent to the following Spring `<beans/>` XML:
 
 [source,xml,indent=0,subs="verbatim,quotes"]
 ----
@@ -7683,7 +7683,7 @@ XML-free usage of the Spring container, as the following example shows:
 .Java
 ----
 	public static void main(String[] args) {
-		ApplicationContext ctx = new AnnotationConfigApplicationContext(com.study.annotation.AppConfig.class);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(com.oldcode.annotation.AppConfig.class);
 		MyService myService = ctx.getBean(MyService.class);
 		myService.doStuff();
 	}
@@ -7694,7 +7694,7 @@ XML-free usage of the Spring container, as the following example shows:
 	import org.springframework.beans.factory.getBean
 
 	fun main() {
-		val ctx = AnnotationConfigApplicationContext(com.study.annotation.AppConfig::class.java)
+		val ctx = AnnotationConfigApplicationContext(com.oldcode.annotation.AppConfig::class.java)
 		val myService = ctx.getBean<MyService>()
 		myService.doStuff()
 	}
@@ -7742,7 +7742,7 @@ example shows how to do so:
 ----
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-		ctx.register(com.study.annotation.AppConfig.class, OtherConfig.class);
+		ctx.register(com.oldcode.annotation.AppConfig.class, OtherConfig.class);
 		ctx.register(AdditionalConfig.class);
 		ctx.refresh();
 		MyService myService = ctx.getBean(MyService.class);
@@ -7756,7 +7756,7 @@ example shows how to do so:
 
 	fun main() {
 		val ctx = AnnotationConfigApplicationContext()
-		ctx.register(com.study.annotation.AppConfig::class.java, OtherConfig::class.java)
+		ctx.register(com.oldcode.annotation.AppConfig::class.java, OtherConfig::class.java)
 		ctx.register(AdditionalConfig::class.java)
 		ctx.refresh()
 		val myService = ctx.getBean<MyService>()
@@ -7775,7 +7775,7 @@ To enable component scanning, you can annotate your `@Configuration` class as fo
 ----
 	@Configuration
 	@ComponentScan(basePackages = "com.acme") // <1>
-	public class com.study.annotation.AppConfig  {
+	public class com.oldcode.annotation.AppConfig  {
 		// ...
 	}
 ----
@@ -7786,7 +7786,7 @@ To enable component scanning, you can annotate your `@Configuration` class as fo
 ----
 	@Configuration
 	@ComponentScan(basePackages = ["com.acme"]) // <1>
-	class com.study.annotation.AppConfig  {
+	class com.oldcode.annotation.AppConfig  {
 		// ...
 	}
 ----
@@ -7835,7 +7835,7 @@ following example shows:
 
 NOTE: Remember that `@Configuration` classes are <<beans-meta-annotations, meta-annotated>>
 with `@Component`, so they are candidates for component-scanning. In the preceding example,
-assuming that `com.study.annotation.AppConfig` is declared within the `com.acme` package (or any package
+assuming that `com.oldcode.annotation.AppConfig` is declared within the `com.acme` package (or any package
 underneath), it is picked up during the call to `scan()`. Upon `refresh()`, all its `@Bean`
 methods are processed and registered as bean definitions within the container.
 
@@ -7867,7 +7867,7 @@ init-param):
 			specified for component-scanning -->
 		<context-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>com.acme.com.study.annotation.AppConfig</param-value>
+			<param-value>com.acme.com.oldcode.annotation.AppConfig</param-value>
 		</context-param>
 
 		<!-- Bootstrap the root application context as usual using ContextLoaderListener -->
@@ -7936,7 +7936,7 @@ the method name. The following example shows a `@Bean` method declaration:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public TransferServiceImpl transferService() {
@@ -7948,7 +7948,7 @@ the method name. The following example shows a `@Bean` method declaration:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun transferService() = TransferServiceImpl()
@@ -7988,7 +7988,7 @@ configurations by implementing interfaces with bean definitions on default metho
 	}
 
 	@Configuration
-	public class com.study.annotation.AppConfig implements BaseConfig {
+	public class com.oldcode.annotation.AppConfig implements BaseConfig {
 
 	}
 ----
@@ -8000,7 +8000,7 @@ return type, as the following example shows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public TransferService transferService() {
@@ -8012,7 +8012,7 @@ return type, as the following example shows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun transferService(): TransferService {
@@ -8048,7 +8048,7 @@ parameter, as the following example shows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public TransferService transferService(AccountRepository accountRepository) {
@@ -8060,7 +8060,7 @@ parameter, as the following example shows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun transferService(accountRepository: AccountRepository): TransferService {
@@ -8113,7 +8113,7 @@ on the `bean` element, as the following example shows:
 	}
 
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean(initMethod = "init")
 		public BeanOne beanOne() {
@@ -8144,7 +8144,7 @@ class BeanTwo {
 }
 
 @Configuration
-class com.study.annotation.AppConfig {
+class com.oldcode.annotation.AppConfig {
 
 	@Bean(initMethod = "init")
 	fun beanOne() = BeanOne()
@@ -8201,7 +8201,7 @@ method directly during construction, as the following example shows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public BeanOne beanOne() {
@@ -8217,7 +8217,7 @@ method directly during construction, as the following example shows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun beanOne() = BeanOne().apply {
@@ -8336,7 +8336,7 @@ as the following example shows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean("myThing")
 		public Thing thing() {
@@ -8348,7 +8348,7 @@ as the following example shows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean("myThing")
 		fun thing() = Thing()
@@ -8368,7 +8368,7 @@ a number of aliases for a bean:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean({"dataSource", "subsystemA-dataSource", "subsystemB-dataSource"})
 		public DataSource dataSource() {
@@ -8380,7 +8380,7 @@ a number of aliases for a bean:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean("dataSource", "subsystemA-dataSource", "subsystemB-dataSource")
 		fun dataSource(): DataSource {
@@ -8404,7 +8404,7 @@ annotation, as the following example shows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		@Description("Provides a basic example of a bean")
@@ -8417,7 +8417,7 @@ annotation, as the following example shows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		@Description("Provides a basic example of a bean")
@@ -8446,7 +8446,7 @@ as having one bean method call another, as the following example shows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public BeanOne beanOne() {
@@ -8463,7 +8463,7 @@ as having one bean method call another, as the following example shows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun beanOne() = BeanOne(beanTwo())
@@ -8583,7 +8583,7 @@ Consider the following example, which shows a `@Bean` annotated method being cal
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public ClientService clientService1() {
@@ -8609,7 +8609,7 @@ Consider the following example, which shows a `@Bean` annotated method being cal
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		fun clientService1(): ClientService {
@@ -9217,10 +9217,10 @@ options for using `@Configuration` classes in this kind of "`XML-centric`" situa
 .[[beans-java-combining-xml-centric-declare-as-bean]]Declaring `@Configuration` classes as plain Spring `<bean/>` elements
 --
 Remember that `@Configuration` classes are ultimately bean definitions in the
-container. In this series examples, we create a `@Configuration` class named `com.study.annotation.AppConfig` and
+container. In this series examples, we create a `@Configuration` class named `com.oldcode.annotation.AppConfig` and
 include it within `system-test-config.xml` as a `<bean/>` definition. Because
 `<context:annotation-config/>` is switched on, the container recognizes the
-`@Configuration` annotation and processes the `@Bean` methods declared in `com.study.annotation.AppConfig`
+`@Configuration` annotation and processes the `@Bean` methods declared in `com.oldcode.annotation.AppConfig`
 properly.
 
 The following example shows an ordinary configuration class in Java:
@@ -9229,7 +9229,7 @@ The following example shows an ordinary configuration class in Java:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Autowired
 		private DataSource dataSource;
@@ -9249,7 +9249,7 @@ The following example shows an ordinary configuration class in Java:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Autowired
 		private lateinit var dataSource: DataSource
@@ -9273,7 +9273,7 @@ The following example shows part of a sample `system-test-config.xml` file:
 		<context:annotation-config/>
 		<context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
 
-		<bean class="com.acme.com.study.annotation.AppConfig"/>
+		<bean class="com.acme.com.oldcode.annotation.AppConfig"/>
 
 		<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 			<property name="url" value="${jdbc.url}"/>
@@ -9312,7 +9312,7 @@ jdbc.password=
 ----
 
 
-NOTE: In `system-test-config.xml` file, the `com.study.annotation.AppConfig` `<bean/>` does not declare an `id`
+NOTE: In `system-test-config.xml` file, the `com.oldcode.annotation.AppConfig` `<bean/>` does not declare an `id`
 element. While it would be acceptable to do so, it is unnecessary, given that no other bean
 ever refers to it, and it is unlikely to be explicitly fetched from the container by name.
 Similarly, the `DataSource` bean is only ever autowired by type, so an explicit bean `id`
@@ -9333,7 +9333,7 @@ The following example shows the modified `system-test-config.xml` file:
 [source,xml,indent=0,subs="verbatim,quotes"]
 ----
 	<beans>
-		<!-- picks up and registers com.study.annotation.AppConfig as a bean definition -->
+		<!-- picks up and registers com.oldcode.annotation.AppConfig as a bean definition -->
 		<context:component-scan base-package="com.acme"/>
 		<context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
 
@@ -9363,7 +9363,7 @@ as needed:
 ----
 	@Configuration
 	@ImportResource("classpath:/com/acme/properties-config.xml")
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Value("${jdbc.url}")
 		private String url;
@@ -9385,7 +9385,7 @@ as needed:
 ----
 	@Configuration
 	@ImportResource("classpath:/com/acme/properties-config.xml")
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Value("\${jdbc.url}")
 		private lateinit var url: String
@@ -9423,7 +9423,7 @@ jdbc.password=
 .Java
 ----
 	public static void main(String[] args) {
-		ApplicationContext ctx = new AnnotationConfigApplicationContext(com.study.annotation.AppConfig.class);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(com.oldcode.annotation.AppConfig.class);
 		TransferService transferService = ctx.getBean(TransferService.class);
 		// ...
 	}
@@ -9434,7 +9434,7 @@ jdbc.password=
 	import org.springframework.beans.factory.getBean
 
 	fun main() {
-		val ctx = AnnotationConfigApplicationContext(com.study.annotation.AppConfig::class.java)
+		val ctx = AnnotationConfigApplicationContext(com.oldcode.annotation.AppConfig::class.java)
 		val transferService = ctx.getBean<TransferService>()
 		// ...
 	}
@@ -9677,7 +9677,7 @@ the following example shows:
 .Java
 ----
 	@Configuration
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean("dataSource")
 		@Profile("development") // <1>
@@ -9704,7 +9704,7 @@ the following example shows:
 .Kotlin
 ----
 	@Configuration
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Bean("dataSource")
 		@Profile("development") // <1>
@@ -10053,7 +10053,7 @@ a call to `testBean.getName()` returns `myTestBean`:
 ----
    @Configuration
    @PropertySource("classpath:/com/myco/app.properties")
-   public class com.study.annotation.AppConfig {
+   public class com.oldcode.annotation.AppConfig {
 
 	   @Autowired
 	   Environment env;
@@ -10071,7 +10071,7 @@ a call to `testBean.getName()` returns `myTestBean`:
 ----
 	@Configuration
 	@PropertySource("classpath:/com/myco/app.properties")
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Autowired
 		private lateinit var env: Environment
@@ -10092,7 +10092,7 @@ environment, as the following example shows:
 ----
    @Configuration
    @PropertySource("classpath:/com/${my.placeholder:default/path}/app.properties")
-   public class com.study.annotation.AppConfig {
+   public class com.oldcode.annotation.AppConfig {
 
 	   @Autowired
 	   Environment env;
@@ -10110,7 +10110,7 @@ environment, as the following example shows:
 ----
 	@Configuration
 	@PropertySource("classpath:/com/\${my.placeholder:default/path}/app.properties")
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 
 		@Autowired
 		private lateinit var env: Environment
@@ -10174,7 +10174,7 @@ To enable load-time weaving, you can add the `@EnableLoadTimeWeaving` to one of 
 ----
 	@Configuration
 	@EnableLoadTimeWeaving
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 	}
 ----
 [source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
@@ -10182,7 +10182,7 @@ To enable load-time weaving, you can add the `@EnableLoadTimeWeaving` to one of 
 ----
 	@Configuration
 	@EnableLoadTimeWeaving
-	class com.study.annotation.AppConfig
+	class com.oldcode.annotation.AppConfig
 ----
 
 Alternatively, for XML configuration, you can use the `context:load-time-weaver` element:

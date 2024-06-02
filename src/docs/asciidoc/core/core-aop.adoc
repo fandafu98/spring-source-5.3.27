@@ -238,7 +238,7 @@ annotation, as the following example shows:
 ----
 	@Configuration
 	@EnableAspectJAutoProxy
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 	}
 ----
@@ -247,7 +247,7 @@ annotation, as the following example shows:
 ----
 	@Configuration
 	@EnableAspectJAutoProxy
-	class com.study.annotation.AppConfig
+	class com.oldcode.annotation.AppConfig
 ----
 
 [[aop-enable-aspectj-xml]]
@@ -3504,7 +3504,7 @@ use Java-based configuration, you can add `@EnableSpringConfigured` to any
 ----
 	@Configuration
 	@EnableSpringConfigured
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 	}
 ----
 [source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
@@ -3512,7 +3512,7 @@ use Java-based configuration, you can add `@EnableSpringConfigured` to any
 ----
 	@Configuration
 	@EnableSpringConfigured
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 	}
 ----
 
@@ -4061,7 +4061,7 @@ which typically is done by using the `@EnableLoadTimeWeaving` annotation, as fol
 ----
 	@Configuration
 	@EnableLoadTimeWeaving
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 	}
 ----
 [source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
@@ -4069,7 +4069,7 @@ which typically is done by using the `@EnableLoadTimeWeaving` annotation, as fol
 ----
 	@Configuration
 	@EnableLoadTimeWeaving
-	class com.study.annotation.AppConfig {
+	class com.oldcode.annotation.AppConfig {
 	}
 ----
 
@@ -4144,7 +4144,7 @@ The following example specifies a `ReflectiveLoadTimeWeaver`:
 ----
 	@Configuration
 	@EnableLoadTimeWeaving
-	public class com.study.annotation.AppConfig implements LoadTimeWeavingConfigurer {
+	public class com.oldcode.annotation.AppConfig implements LoadTimeWeavingConfigurer {
 
 		@Override
 		public LoadTimeWeaver getLoadTimeWeaver() {
@@ -4157,7 +4157,7 @@ The following example specifies a `ReflectiveLoadTimeWeaver`:
 ----
 	@Configuration
 	@EnableLoadTimeWeaving
-	class com.study.annotation.AppConfig : LoadTimeWeavingConfigurer {
+	class com.oldcode.annotation.AppConfig : LoadTimeWeavingConfigurer {
 
 		override fun getLoadTimeWeaver(): LoadTimeWeaver {
 			return ReflectiveLoadTimeWeaver()

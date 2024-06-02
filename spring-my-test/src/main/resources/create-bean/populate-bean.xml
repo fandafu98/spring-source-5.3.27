@@ -6,14 +6,14 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="person" class="com.have.domain.PopulateBeanPerson" autowire="byName">
+	<bean id="person" class="com.newcode.domain.PopulateBeanPerson" autowire="byName">
 		<constructor-arg name="id" value="1"/>
 		<constructor-arg name="name" value="wangwu"/>
 		<constructor-arg name="age" value="12"/>
 		<constructor-arg name="gender" value="男"/>
 		<constructor-arg name="address" ref="address"/>
 	</bean>
-	<bean id="address" class="com.have.domain.PopulateBeanAddress">
+	<bean id="address" class="com.newcode.domain.PopulateBeanAddress">
 		<constructor-arg name="address" value="东南亚"></constructor-arg>
 	</bean>
 

@@ -8,12 +8,12 @@
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<bean id="logUtil" class=" com.have.aop.LogUtil" />
-	<bean id="myCalculator" class="com.have.aop.MyCalculator"/>
+	<bean id="logUtil" class=" com.newcode.aop.LogUtil" />
+	<bean id="myCalculator" class="com.newcode.aop.MyCalculator"/>
 
 	<aop:config>
 		<aop:aspect ref="logUtil">
-			<aop:pointcut id="myPoint" expression="execution(Integer com.have.aop.MyCalculator.*(..))"/>
+			<aop:pointcut id="myPoint" expression="execution(Integer com.newcode.aop.MyCalculator.*(..))"/>
 			<aop:around method="around" pointcut-ref="myPoint"/>
 			<aop:before method="before" pointcut-ref="myPoint"/>
 			<aop:after method="after" pointcut-ref="myPoint"/>

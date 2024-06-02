@@ -2379,7 +2379,7 @@ your `@Configuration` classes, as the following example shows:
 ----
 	@Configuration
 	@EnableJms
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
@@ -2434,7 +2434,7 @@ The following example shows how to do so:
 ----
 	@Configuration
 	@EnableJms
-	public class com.study.annotation.AppConfig implements JmsListenerConfigurer {
+	public class com.oldcode.annotation.AppConfig implements JmsListenerConfigurer {
 
 		@Override
 		public void configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
@@ -2515,7 +2515,7 @@ annotate the payload with `@Valid` and configure the necessary validator, as the
 ----
 	@Configuration
 	@EnableJms
-	public class com.study.annotation.AppConfig implements JmsListenerConfigurer {
+	public class com.oldcode.annotation.AppConfig implements JmsListenerConfigurer {
 
 		@Override
 		public void configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
@@ -2599,7 +2599,7 @@ as the following example shows:
 ----
 	@Configuration
 	@EnableJms
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 		@Bean
 		public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
@@ -3776,7 +3776,7 @@ as the following example shows:
 ----
 	@Configuration
 	@EnableMBeanExport
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 
 	}
 ----
@@ -4898,7 +4898,7 @@ To enable support for `@Scheduled` and `@Async` annotations, you can add `@Enabl
 	@Configuration
 	@EnableAsync
 	@EnableScheduling
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 	}
 ----
 
@@ -6139,7 +6139,7 @@ To enable caching annotations add the annotation `@EnableCaching` to one of your
 ----
 	@Configuration
 	@EnableCaching
-	public class com.study.annotation.AppConfig {
+	public class com.oldcode.annotation.AppConfig {
 	}
 ----
 
